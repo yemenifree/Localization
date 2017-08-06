@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Localization\Entities;
 
-use Arcanedev\Support\Collection;
+use Illuminate\Support\Collection;
 
 /**
  * Class     LocaleCollection
@@ -16,6 +16,13 @@ class LocaleCollection extends Collection
      */
 
     /**
+     * Default locale.
+     *
+     * @var string
+     */
+    protected $default;
+
+    /**
      * Supported locales.
      *
      * @var array
@@ -28,11 +35,25 @@ class LocaleCollection extends Collection
      */
 
     /**
+     * Set the default locale.
+     *
+     * @param  string  $default
+     *
+     * @return \Arcanedev\Localization\Entities\LocaleCollection
+     */
+    public function setDefault($default)
+    {
+        $this->default = $default;
+
+        return $this;
+    }
+
+    /**
      * Set supported locales keys.
      *
      * @param  array  $supported
      *
-     * @return self
+     * @return \Arcanedev\Localization\Entities\LocaleCollection
      */
     public function setSupportedKeys(array $supported)
     {
@@ -60,31 +81,35 @@ class LocaleCollection extends Collection
     }
 
     /**
+     * Get the default locale.
+     *
+     * @return \Arcanedev\Localization\Entities\Locale
+     */
+    public function getDefault()
+    {
+        return $this->get($this->default);
+    }
+
+    /**
      * Get supported locales collection.
      *
-     * @return self
+     * @return \Arcanedev\Localization\Entities\LocaleCollection
      */
     public function getSupported()
     {
-        return $this->filter(function(Locale $locale) {
-            return in_array($locale->key(), $this->supported);
-        });
+        return $this->only($this->supported);
     }
 
     /**
      * Load from config.
      *
-     * @return self
+     * @return \Arcanedev\Localization\Entities\LocaleCollection
      */
     public function loadFromConfig()
     {
-        $locales   = config('localization.locales', []);
-        $supported = config('localization.supported-locales', []);
-
-        $this->loadFromArray($locales);
-        $this->setSupportedKeys($supported);
-
-        return $this;
+        return $this->setDefault(config('app.locale'))
+                    ->loadFromArray(config('localization.locales', []))
+                    ->setSupportedKeys(config('localization.supported-locales', []));
     }
 
     /**
@@ -92,16 +117,28 @@ class LocaleCollection extends Collection
      *
      * @param  array  $locales
      *
-     * @return self
+     * @return \Arcanedev\Localization\Entities\LocaleCollection
      */
     public function loadFromArray(array $locales)
     {
-        $this->reset();
+        $this->items = []; // Reset all
 
         foreach ($locales as $key => $locale) {
             $this->put($key, Locale::make($key, $locale));
         }
 
         return $this;
+    }
+
+    /**
+     * Partition the collection into two arrays (Supported & Unsupported locales).
+     *
+     * @return \Arcanedev\Localization\Entities\LocaleCollection
+     */
+    public function partitionSupported()
+    {
+        return $this->partition(function (Locale $locale) {
+            return in_array($locale->key, $this->supported);
+        });
     }
 }

@@ -6,4 +6,4 @@
  * @package  Arcanedev\Localization\Exceptions
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class InvalidTranslationException extends LocalizationException {}
+class InvalidTranslationException extends \Exception {}

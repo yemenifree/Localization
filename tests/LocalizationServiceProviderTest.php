@@ -15,22 +15,22 @@ class LocalizationServiceProviderTest extends TestCase
      | -----------------------------------------------------------------
      */
 
-    /** @var \Arcanedev\Localization\LocalizationServiceProvider */
-    private $provider;
+    /** @var  \Arcanedev\Localization\LocalizationServiceProvider */
+    protected $provider;
 
     /* -----------------------------------------------------------------
      |  Main Methods
      | -----------------------------------------------------------------
      */
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
         $this->provider = $this->app->getProvider(LocalizationServiceProvider::class);
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
         unset($this->provider);
 
@@ -49,7 +49,7 @@ class LocalizationServiceProviderTest extends TestCase
             \Illuminate\Support\ServiceProvider::class,
             \Arcanedev\Support\ServiceProvider::class,
             \Arcanedev\Support\PackageServiceProvider::class,
-            \Arcanedev\Localization\LocalizationServiceProvider::class,
+            LocalizationServiceProvider::class,
         ];
 
         foreach ($expectations as $expected) {
@@ -65,14 +65,5 @@ class LocalizationServiceProviderTest extends TestCase
         ];
 
         $this->assertSame($expected, $this->provider->provides());
-    }
-
-    /** @test */
-    public function it_can_register_localization_facade()
-    {
-        $this->assertEquals(
-            $this->app->getLocale(),
-            \Arcanedev\Localization\Facades\Localization::getDefaultLocale()
-        );
     }
 }

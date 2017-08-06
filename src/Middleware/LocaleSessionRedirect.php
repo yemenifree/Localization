@@ -11,13 +11,12 @@ use Illuminate\Http\Request;
  *
  * @todo:    Refactoring
  */
-class LocaleSessionRedirect extends Middleware
+class LocaleSessionRedirect extends AbstractMiddleware
 {
-    /* -----------------------------------------------------------------
-     |  Main Methods
-     | -----------------------------------------------------------------
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
      */
-
     /**
      * Handle an incoming request.
      *
@@ -28,27 +27,25 @@ class LocaleSessionRedirect extends Middleware
      */
     public function handle(Request $request, Closure $next)
     {
-        // If the request URL is ignored from localization.
-        if ($this->shouldIgnore($request)) return $next($request);
-
         $segment = $request->segment(1, null);
         $locale  = session('locale', null);
 
-        if ($this->localization->isLocaleSupported($segment)) {
+        if (localization()->isLocaleSupported($segment)) {
             session()->put(['locale' => $segment]);
 
             return $next($request);
         }
-        elseif ($this->localization->isDefaultLocaleHiddenInUrl()) {
-            $locale = $this->localization->getDefaultLocale();
+        elseif (localization()->isDefaultLocaleHiddenInUrl()) {
+            $locale = localization()->getDefaultLocale();
             session()->put(compact('locale'));
         }
 
         if (is_string($locale) && ! $this->isDefaultLocaleHidden($locale)) {
             session()->reflash();
 
-            if ( ! is_null($redirect = $this->getLocalizedRedirect($locale)))
-                return $redirect;
+            $redirect = $this->getLocalizedRedirect($locale);
+
+            if ( ! is_null($redirect)) return $redirect;
         }
 
         return $next($request);

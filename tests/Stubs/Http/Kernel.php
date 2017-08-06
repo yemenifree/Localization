@@ -1,6 +1,6 @@
 <?php namespace Arcanedev\Localization\Tests\Stubs\Http;
 
-use Arcanedev\Localization\Traits\LocalizationKernelTrait;
+use Arcanedev\Localization\Traits\HasLocalizedRoutes;
 use Orchestra\Testbench\Http\Kernel as HttpKernel;
 
 /**
@@ -16,7 +16,7 @@ class Kernel extends HttpKernel
      | -----------------------------------------------------------------
      */
 
-    use LocalizationKernelTrait;
+    use HasLocalizedRoutes;
 
     /* -----------------------------------------------------------------
      |  Properties

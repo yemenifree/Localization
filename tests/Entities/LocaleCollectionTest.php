@@ -47,33 +47,39 @@ class LocaleCollectionTest extends TestCase
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->assertInstanceOf(LocaleCollection::class, $this->locales);
-        $this->assertTrue($this->locales->isEmpty());
-        $this->assertCount(0, $this->locales);
-        $this->assertSame(0, $this->locales->count());
+        $expectations = [
+            \Illuminate\Support\Collection::class,
+            LocaleCollection::class,
+        ];
+
+        foreach ($expectations as $expected) {
+            $this->assertInstanceOf($expected, $this->locales);
+        }
     }
 
     /** @test */
     public function it_can_get_all_locales()
     {
-        $data = config('localization.locales', []);
-        $this->locales->loadFromArray($data);
-
+        $this->locales->loadFromArray($this->getRawLocales());
         $this->assertFalse($this->locales->isEmpty());
-        $this->assertCount(289, $this->locales);
-        $this->assertSame(289, $this->locales->count());
+
+        $localesCount = $this->getRawLocalesCount();
+
+        $this->assertGreaterThan(0, $localesCount);
+        $this->assertCount($localesCount, $this->locales);
+        $this->assertSame($localesCount, $this->locales->count());
     }
 
     /** @test */
     public function it_can_get_supported_locales()
     {
         $this->locales
-            ->loadFromArray(config('localization.locales', []))
-            ->setSupportedKeys(config('localization.supported-locales', []));
+            ->loadFromArray($this->getRawLocales())
+            ->setSupportedKeys($supportedLocales = $this->getSupportedLocales());
 
+        $count     = count($supportedLocales);
         $supported = $this->locales->getSupported();
 
-        $count = count($this->supportedLocales);
         $this->assertFalse($supported->isEmpty());
         $this->assertCount($count, $supported);
         $this->assertSame($count, $supported->count());
@@ -83,7 +89,6 @@ class LocaleCollectionTest extends TestCase
     public function it_can_load_locales_from_config()
     {
         $this->locales->loadFromConfig();
-
         $supported = $this->locales->getSupported();
 
         // Assert all locales
@@ -93,7 +98,8 @@ class LocaleCollectionTest extends TestCase
 
         // Assert supported locales
         $this->assertFalse($supported->isEmpty());
-        $count = count($this->supportedLocales);
+
+        $count = count($this->getSupportedLocales());
         $this->assertCount($count,  $supported);
         $this->assertSame($count, $supported->count());
     }
@@ -106,6 +112,29 @@ class LocaleCollectionTest extends TestCase
         $locale = $this->locales->first();
 
         $this->assertInstanceOf(Locale::class, $locale);
-        $this->assertSame('aa', $locale->key());
+        $this->assertSame('aa', $locale->key);
+    }
+
+    /** @test */
+    public function it_can_get_default_locale()
+    {
+        $this->locales->loadFromConfig();
+
+        $locale = $this->locales->getDefault();
+
+        $this->assertSame(config('app.locale'), $locale->key);
+    }
+
+    /** @test */
+    public function it_can_partition_supported()
+    {
+        $this->locales->loadFromConfig();
+
+        list($supported, $unsupported) = $this->locales->partitionSupported();
+
+        $supportedCount = count($this->getSupportedLocales());
+
+        $this->assertCount($supportedCount, $supported);
+        $this->assertCount($this->getRawLocalesCount() - $supportedCount, $unsupported);
     }
 }

@@ -15,19 +15,7 @@ abstract class TestCase extends BaseTestCase
      | -----------------------------------------------------------------
      */
 
-    /** @var string  */
-    protected $defaultLocale    = 'en';
-
-    /** @var array */
-    protected $supportedLocales = ['en', 'es', 'fr'];
-
-    /** @var string  */
-    protected $testUrlOne       = 'http://localhost/';
-
-    /** @var string  */
-    protected $testUrlTwo       = 'http://localhost';
-
-    /** @var Stubs\Http\RouteRegistrar */
+    /** @var  \Arcanedev\Localization\Tests\Stubs\Http\RouteRegistrar */
     protected $routeRegistrar;
 
     /* -----------------------------------------------------------------
@@ -90,10 +78,10 @@ abstract class TestCase extends BaseTestCase
          */
         $config       = $app['config'];
         $translator   = $app['translator'];
-        $localization = $app[\Arcanedev\Localization\Contracts\Localization::class];
 
-        $config->set('app.url',    $this->testUrlOne);
-        $config->set('app.locale', $this->defaultLocale);
+        $config->set('app.debug', true);
+        $config->set('app.url', $this->baseUrl);
+
         $config->set('localization.route.middleware', [
             'localization-session-redirect' => false,
             'localization-cookie-redirect'  => false,
@@ -104,39 +92,17 @@ abstract class TestCase extends BaseTestCase
 
         $translator->getLoader()->addNamespace(
             'localization',
-            realpath(__DIR__) . DS . 'fixtures'. DS .'lang'
+            realpath(__DIR__).DS.'fixtures'.DS.'lang'
         );
 
         $translator->load('localization', 'routes', 'en');
         $translator->load('localization', 'routes', 'es');
         $translator->load('localization', 'routes', 'fr');
 
-        $localization->setBaseUrl($this->testUrlOne);
+//        $localization->setBaseUrl($this->baseUrl);
 
         $this->setRoutes();
-        $this->setDatabase($config);
-    }
-
-    /**
-     * Refresh routes and refresh application
-     *
-     * @param  bool|string  $locale
-     * @param  bool         $session
-     * @param  bool         $cookie
-     */
-    protected function refreshApplication($locale = false, $session = false, $cookie = false)
-    {
-        parent::refreshApplication();
-
-        app('config')->set('localization.route.middleware', [
-            'localization-session-redirect' => $session,
-            'localization-cookie-redirect'  => $cookie,
-            'localization-redirect'         => true,
-            'localized-routes'              => true,
-            'translation-redirect'          => true,
-        ]);
-
-        $this->setRoutes($locale);
+//        $this->setDatabase($config);
     }
 
     /* -----------------------------------------------------------------
@@ -146,18 +112,12 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * Set routes for testing
-     *
-     * @param  string|bool  $locale
      */
-    protected function setRoutes($locale = false)
+    protected function setRoutes()
     {
-        $this->routeRegistrar = new Stubs\Http\RouteRegistrar;
-
-        if ($locale) {
-            localization()->setLocale($locale);
-        }
-
-        $this->routeRegistrar->map(app('router'));
+        $this->routeRegistrar = tap(new Stubs\Http\RouteRegistrar, function ($registrar) {
+            $registrar->map();
+        });
     }
 
     /**
@@ -173,5 +133,69 @@ abstract class TestCase extends BaseTestCase
             'database' => ':memory:',
             'prefix'   => '',
         ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * Get the supported locales.
+     *
+     * @return array
+     */
+    protected function getSupportedLocales()
+    {
+        return $this->app['config']->get('localization.supported-locales', []);
+    }
+
+    /**
+     * Get a raw locale data.
+     *
+     * @param  string  $key
+     *
+     * @return array
+     */
+    protected function getRawLocale($key)
+    {
+        return $this->app['config']->get("localization.locales.{$key}");
+    }
+
+    /**
+     * Get the raw locales.
+     *
+     * @return array
+     */
+    protected function getRawLocales()
+    {
+        return $this->app['config']->get('localization.locales');
+    }
+
+    /**
+     * Get the raw locales count.
+     *
+     * @return int
+     */
+    protected function getRawLocalesCount()
+    {
+        return count($this->getRawLocales());
     }
 }

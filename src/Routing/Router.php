@@ -1,6 +1,7 @@
 <?php namespace Arcanedev\Localization\Routing;
 
 use Closure;
+use Illuminate\Routing\RouteCollection;
 use Illuminate\Routing\Router as IlluminateRouter;
 
 /**
@@ -29,24 +30,27 @@ class Router extends IlluminateRouter
     }
 
     /* -----------------------------------------------------------------
-     |  Route Methods
+     |  Main Methods
      | -----------------------------------------------------------------
      */
 
     /**
-     * Create a route group with shared attributes.
+     * Add a localized group routes.
      *
-     * @param  array     $attributes
      * @param  \Closure  $callback
      */
-    public function localizedGroup(Closure $callback, $attributes = [])
-    {
-        $attributes = array_merge($attributes, [
-            'prefix'     => localization()->setLocale(),
-            'middleware' => $this->getActiveMiddlewares(),
-        ]);
+    public function transGroup(Closure $callback) {
+        $locales    = config('localization.supported-locales', []);
+        $middleware = $this->getActiveMiddlewares();
 
-        $this->group(array_filter($attributes), $callback);
+        foreach ($locales as $locale) {
+            app()->setLocale($locale);
+
+            $this->group(['prefix' => $locale, 'as' => "$locale.", 'middleware' => $middleware], function ($router) use ($callback, $locale) {
+                 $callback($router, $locale);
+                 $this->cleanLocalizedRoutes($locale);
+             });
+        }
     }
 
     /**
@@ -110,6 +114,7 @@ class Router extends IlluminateRouter
     }
 
     /**
+    -
      * Register a new translated DELETE route with the router.
      *
      * @param  string                 $trans
@@ -158,6 +163,26 @@ class Router extends IlluminateRouter
      |  Other Methods
      | -----------------------------------------------------------------
      */
+    /**
+     * Clean the localized routes.
+     *
+     * @param  string  $locale
+     */
+    private function cleanLocalizedRoutes($locale)
+    {
+        $routes = new RouteCollection;
+
+        foreach ($this->getRoutes()->getRoutes() as $route) {
+            /** @var \Illuminate\Routing\Route $route */
+            if ($route->named("$locale.")) {
+                $route->setAction(array_except($route->getAction(), ['as']));
+            }
+
+            $routes->add($route);
+        }
+
+        $this->setRoutes($routes);
+    }
 
     /**
      * Translate the route.

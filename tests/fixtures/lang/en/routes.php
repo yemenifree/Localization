@@ -6,7 +6,6 @@ return [
     'view-project'  => 'view/{id}/project/{project_id?}',
     'hello'         => 'Hello world',
     'test-text'     => 'Test text',
-
     'methods'       => [
         'post'      => 'post',
         'put'       => 'put',

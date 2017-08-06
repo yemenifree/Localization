@@ -40,11 +40,10 @@ class LocalizationServiceProvider extends PackageServiceProvider
             Providers\UtilitiesServiceProvider::class,
         ]);
         $this->registerLocalization();
-        $this->registerAliases();
     }
 
     /**
-     * Boot the package.
+     * Boot the service provider.
      */
     public function boot()
     {
@@ -66,21 +65,11 @@ class LocalizationServiceProvider extends PackageServiceProvider
         ];
     }
 
-    /* -----------------------------------------------------------------
-     |  Services Methods
-     | -----------------------------------------------------------------
-     */
-
     /**
      * Register Localization.
      */
     private function registerLocalization()
     {
         $this->singleton(Contracts\Localization::class, Localization::class);
-
-        $this->alias(
-            $this->config()->get('localization.facade', 'Localization'),
-            Facades\Localization::class
-        );
     }
 }

@@ -1,7 +1,7 @@
 <?php namespace Arcanedev\Localization\Traits;
 
 /**
- * Class     LocalizationKernelTrait
+ * Trait     HasLocalizedRoutes
  *
  * @package  Arcanedev\Localization\Traits
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
@@ -11,7 +11,7 @@
  * @property  array                                   middlewareGroups
  * @property  array                                   routeMiddleware
  */
-trait LocalizationKernelTrait
+trait HasLocalizedRoutes
 {
     /* -----------------------------------------------------------------
      |  Main Methods

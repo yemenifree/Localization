@@ -42,10 +42,23 @@ class RoutingServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->replaceIlluminateRouter();
+
+        parent::register();
+    }
+
+    /* -----------------------------------------------------------------
+     |  Other Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Register the router.
+     */
+    private function replaceIlluminateRouter()
+    {
         $this->app->singleton('router', function ($app) {
             return new Router($app['events'], $app);
         });
-
-        parent::register();
     }
 }

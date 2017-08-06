@@ -8,14 +8,15 @@ use Illuminate\Http\Request;
  *
  * @package  Arcanedev\Localization\Middleware
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
+ *
+ * @todo:    Refactoring
  */
-class LocalizationRedirect extends Middleware
+class LocalizationRedirect extends AbstractMiddleware
 {
-    /* -----------------------------------------------------------------
-     |  Main Methods
-     | -----------------------------------------------------------------
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
      */
-
     /**
      * Handle an incoming request.
      *
@@ -26,9 +27,6 @@ class LocalizationRedirect extends Middleware
      */
     public function handle(Request $request, Closure $next)
     {
-        // If the request URL is ignored from localization.
-        if ($this->shouldIgnore($request)) return $next($request);
-
         if ($redirectUrl = $this->getRedirectionUrl($request)) {
             // Save any flashed data for redirect
             session()->reflash();
@@ -39,11 +37,10 @@ class LocalizationRedirect extends Middleware
         return $next($request);
     }
 
-    /* -----------------------------------------------------------------
-     |  Other Methods
-     | -----------------------------------------------------------------
+    /* ------------------------------------------------------------------------------------------------
+     |  Other Functions
+     | ------------------------------------------------------------------------------------------------
      */
-
     /**
      * Get redirection.
      *
@@ -55,10 +52,11 @@ class LocalizationRedirect extends Middleware
     {
         $locale = $request->segment(1, null);
 
-        if ($this->getSupportedLocales()->has($locale))
+        if ($this->getSupportedLocales()->has($locale)) {
             return $this->isDefaultLocaleHidden($locale)
-                ? $this->localization->getNonLocalizedURL()
+                ? localization()->getNonLocalizedURL()
                 : false;
+        }
 
         // If the current url does not contain any locale
         // The system redirect the user to the very same url "localized" we use the current locale to redirect him
@@ -66,7 +64,7 @@ class LocalizationRedirect extends Middleware
             $this->getCurrentLocale() !== $this->getDefaultLocale() ||
             ! $this->hideDefaultLocaleInURL()
         ) {
-            return $this->localization->getLocalizedURL(session('locale'), $request->fullUrl());
+            return localization()->getLocalizedURL(session('locale'), $request->fullUrl());
         }
 
         return false;

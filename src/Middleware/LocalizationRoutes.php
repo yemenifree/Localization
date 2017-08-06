@@ -9,13 +9,12 @@ use Illuminate\Http\Request;
  * @package  Arcanedev\Localization\Middleware
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class LocalizationRoutes extends Middleware
+class LocalizationRoutes extends AbstractMiddleware
 {
-    /* -----------------------------------------------------------------
-     |  Main Methods
-     | -----------------------------------------------------------------
+    /* ------------------------------------------------------------------------------------------------
+     |  Main Functions
+     | ------------------------------------------------------------------------------------------------
      */
-
     /**
      * Handle an incoming request.
      *
@@ -26,10 +25,7 @@ class LocalizationRoutes extends Middleware
      */
     public function handle(Request $request, Closure $next)
     {
-        // If the request URL is ignored from localization.
-        if ($this->shouldIgnore($request)) return $next($request);
-
-        $this->localization->setRouteNameFromRequest($request);
+        localization()->setRouteNameFromRequest($request);
 
         return $next($request);
     }

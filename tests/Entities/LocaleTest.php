@@ -2,6 +2,7 @@
 
 use Arcanedev\Localization\Entities\Locale;
 use Arcanedev\Localization\Tests\TestCase;
+use League\Flysystem\Adapter\Local;
 
 /**
  * Class     LocaleTest
@@ -12,134 +13,133 @@ use Arcanedev\Localization\Tests\TestCase;
 class LocaleTest extends TestCase
 {
     /* -----------------------------------------------------------------
-     |  Properties
-     | -----------------------------------------------------------------
-     */
-
-    /** @var \Arcanedev\Localization\Entities\Locale */
-    private $locale;
-
-    /* -----------------------------------------------------------------
-     |  Main Methods
-     | -----------------------------------------------------------------
-     */
-
-    public function tearDown()
-    {
-        unset($this->locale);
-
-        parent::tearDown();
-    }
-
-    /* -----------------------------------------------------------------
-     |  Test Methods
+     |  Tests
      | -----------------------------------------------------------------
      */
 
     /** @test */
     public function it_can_be_instantiated()
     {
-        $this->locale = $this->makeLocale('en');
+        foreach ($this->getRawLocales() as $key => $attributes) {
+            $locale = new Locale(
+                $attributes = compact('key') + $attributes
+            );
 
-        $this->assertInstanceOf(Locale::class, $this->locale);
-
-        $this->assertSame('en',      $this->locale->key());
-        $this->assertSame('English', $this->locale->name());
-        $this->assertSame('Latin',   $this->locale->script());
-        $this->assertSame('ltr',     $this->locale->direction());
-        $this->assertSame('English', $this->locale->native());
-        $this->assertSame('en_GB',   $this->locale->regional());
-
-        $this->assertTrue($this->locale->isDefault());
+            $this->assertLocaleInstance($locale);
+            $this->assertLocaleAttributes($locale, $attributes['key'], $attributes);
+        }
     }
 
     /** @test */
-    public function it_must_lower_direction_case()
+    public function it_can_make_locale()
     {
-        $key          = 'en';
-        $data         = $this->getLocale($key);
-        $data['dir']  = 'LTR';
-        $this->locale = new Locale($key, $data);
+        foreach ($this->getRawLocales() as $key => $attributes) {
+            $locale = Locale::make($key, $attributes);
 
-        $this->assertSame(strtolower($data['dir']), $this->locale->direction());
+            $this->assertLocaleAttributes($locale, $key, $attributes);
+        }
     }
 
     /** @test */
-    public function it_can_get_direction_if_empty()
+    public function it_can_get_attributes()
     {
-        $key          = 'en';
-        $data         = $this->getLocale($key);
-        $data['dir']  = '';
-        $this->locale = new Locale($key, $data);
+        $locale = Locale::make('en', $attributes = $this->getRawLocale('en'));
+        $this->assertLocaleAttributes($locale, 'en', $attributes);
 
-        $this->assertSame('ltr', $this->locale->direction());
+        // Not available
+        $this->assertNull($locale->get('timezone'));
+        $this->assertSame('UTC', $locale->get('timezone', 'UTC'));
     }
 
     /** @test */
-    public function it_can_convert_entity_to_array()
+    public function it_can_get_extra_attribute()
     {
-        $this->locale = $this->makeLocale('en');
+        $extras     = ['timezone' => 'UTC'];
+        $attributes = $this->getRawLocale('en') + $extras;
 
-        $this->assertInternalType('array', $this->locale->toArray());
+        $locale = Locale::make('en', $attributes);
+
+        $this->assertLocaleAttributes($locale, 'en', $attributes, $extras);
+
+        $this->assertSame($extras['timezone'], $locale->extra('timezone'));
+        $this->assertNull($locale->extra('currency'));
+        $this->assertSame('GBP', $locale->extra('currency', 'GBP'));
     }
 
     /** @test */
-    public function it_can_convert_entity_to_json()
+    public function it_can_check_is_default()
     {
-        $this->locale = $this->makeLocale('en');
+        $key = config('app.locale');
 
-        $this->assertJson($this->locale->toJson());
-        $this->assertJson(json_encode($this->locale, JSON_PRETTY_PRINT));
+        $this->assertTrue(
+            Locale::make($key, $this->getRawLocale($key))->isDefault()
+        );
+
+        $key = 'zu';
+
+        $this->assertFalse(
+            Locale::make($key, $this->getRawLocale($key))->isDefault()
+        );
+    }
+
+    /** @test */
+    public function it_can_check_if_supported()
+    {
+        foreach ($this->getSupportedLocales() as $key) {
+            $this->assertTrue(
+                Locale::make($key, $this->getRawLocale($key))->isSupported()
+            );
+        }
+
+        $key = 'zu';
+
+        $this->assertFalse(
+            Locale::make($key, $this->getRawLocale($key))->isSupported()
+        );
     }
 
     /* -----------------------------------------------------------------
-     |  Other Methods
+     |  Custom Assertions
      | -----------------------------------------------------------------
      */
 
     /**
-     * Make a locale.
+     * Assert the locale instance.
      *
-     * @param  string  $key
-     *
-     * @return \Arcanedev\Localization\Entities\Locale
+     * @param  mixed  $locale
      */
-    private function makeLocale($key)
+    protected function assertLocaleInstance($locale)
     {
-        return Locale::make($key, $this->getLocale($key));
+        $expectations = [
+            \Illuminate\Support\Fluent::class,
+            \Illuminate\Contracts\Support\Arrayable::class,
+            \Illuminate\Contracts\Support\Jsonable::class,
+            \Arcanedev\Localization\Entities\Locale::class,
+        ];
+
+        foreach ($expectations as $expected) {
+            $this->assertInstanceOf($expected, $locale);
+        }
     }
 
     /**
-     * Get locale data.
+     * Assert the locale attributes.
      *
-     * @param  string  $key
-     *
-     * @return array
+     * @param  \Arcanedev\Localization\Entities\Locale  $locale
+     * @param  string                                   $key
+     * @param  array                                    $attributes
+     * @param  array                                    $extras
      */
-    private function getLocale($key)
+    protected function assertLocaleAttributes($locale, $key, array $attributes, array $extras = [])
     {
-        return array_get([
-            'ar' => [
-                'name'     => 'Arabic',
-                'script'   => 'Arab',
-                'dir'      => 'rtl',
-                'native'   => 'العربية',
-                'regional' => 'ar_AE',
-            ],
-            'en' => [
-                'name'     => 'English',
-                'script'   => 'Latin',
-                'dir'      => 'ltr',
-                'native'   => 'English',
-                'regional' => 'en_GB',
-            ],
-            'fr' => [
-                'name'     => 'French',
-                'script'   => 'Latin',
-                'dir'      => 'ltr',
-                'native'   => 'Français',
-                'regional' => 'fr_FR',
-            ],
-        ], $key);
+        $message = "Failed on locale [{$key}]";
+
+        $this->assertSame($key, $locale->get('key'), $message);
+        $this->assertSame($attributes['name'], $locale->get('name'), $message);
+        $this->assertSame($attributes['script'], $locale->get('script'), $message);
+        $this->assertSame($attributes['direction'], $locale->get('direction'), $message);
+        $this->assertSame($attributes['native'], $locale->get('native'), $message);
+        $this->assertSame($attributes['regional'], $locale->get('regional'), $message);
+        $this->assertSame($extras, $locale->get('extras'), $message);
     }
 }
