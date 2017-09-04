@@ -13,21 +13,12 @@ use Illuminate\Routing\Router as IlluminateRouter;
 class Router extends IlluminateRouter
 {
     /* -----------------------------------------------------------------
-     |  Getters & Setters
+     |  Properties
      | -----------------------------------------------------------------
      */
 
-    /**
-     * Get active middlewares.
-     *
-     * @return array
-     */
-    protected function getActiveMiddlewares()
-    {
-        return array_keys(array_filter(
-            config('localization.route.middleware', [])
-        ));
-    }
+    /** @var string|null */
+    private $locale;
 
     /* -----------------------------------------------------------------
      |  Main Methods
@@ -40,13 +31,10 @@ class Router extends IlluminateRouter
      * @param  \Closure  $callback
      */
     public function transGroup(Closure $callback) {
-        $locales    = config('localization.supported-locales', []);
-        $middleware = $this->getActiveMiddlewares();
+        foreach (config('localization.supported-locales', []) as $locale) {
+            $this->locale = $locale;
 
-        foreach ($locales as $locale) {
-            app()->setLocale($locale);
-
-            $this->group(['prefix' => $locale, 'as' => "$locale.", 'middleware' => $middleware], function ($router) use ($callback, $locale) {
+            $this->group(['prefix' => $locale, 'as' => "$locale.", 'middleware' => 'localization'], function ($router) use ($callback, $locale) {
                  $callback($router, $locale);
                  $this->cleanLocalizedRoutes($locale);
              });
@@ -193,6 +181,6 @@ class Router extends IlluminateRouter
      */
     private function transRoute($key)
     {
-        return localization()->transRoute($key);
+        return localization()->transRoute($key, $this->locale);
     }
 }

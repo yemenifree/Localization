@@ -11,58 +11,6 @@ use Illuminate\Support\Collection;
 class LocaleCollection extends Collection
 {
     /* -----------------------------------------------------------------
-     |  Properties
-     | -----------------------------------------------------------------
-     */
-
-    /**
-     * Default locale.
-     *
-     * @var string
-     */
-    protected $default;
-
-    /**
-     * Supported locales.
-     *
-     * @var array
-     */
-    protected $supported = [];
-
-    /* -----------------------------------------------------------------
-     |  Getters & Setters
-     | -----------------------------------------------------------------
-     */
-
-    /**
-     * Set the default locale.
-     *
-     * @param  string  $default
-     *
-     * @return \Arcanedev\Localization\Entities\LocaleCollection
-     */
-    public function setDefault($default)
-    {
-        $this->default = $default;
-
-        return $this;
-    }
-
-    /**
-     * Set supported locales keys.
-     *
-     * @param  array  $supported
-     *
-     * @return \Arcanedev\Localization\Entities\LocaleCollection
-     */
-    public function setSupportedKeys(array $supported)
-    {
-        $this->supported = $supported;
-
-        return $this;
-    }
-
-    /* -----------------------------------------------------------------
      |  Main Methods
      | -----------------------------------------------------------------
      */
@@ -81,35 +29,13 @@ class LocaleCollection extends Collection
     }
 
     /**
-     * Get the default locale.
-     *
-     * @return \Arcanedev\Localization\Entities\Locale
-     */
-    public function getDefault()
-    {
-        return $this->get($this->default);
-    }
-
-    /**
-     * Get supported locales collection.
-     *
-     * @return \Arcanedev\Localization\Entities\LocaleCollection
-     */
-    public function getSupported()
-    {
-        return $this->only($this->supported);
-    }
-
-    /**
      * Load from config.
      *
      * @return \Arcanedev\Localization\Entities\LocaleCollection
      */
     public function loadFromConfig()
     {
-        return $this->setDefault(config('app.locale'))
-                    ->loadFromArray(config('localization.locales', []))
-                    ->setSupportedKeys(config('localization.supported-locales', []));
+        return $this->loadFromArray(config('localization.locales', []));
     }
 
     /**
@@ -128,17 +54,5 @@ class LocaleCollection extends Collection
         }
 
         return $this;
-    }
-
-    /**
-     * Partition the collection into two arrays (Supported & Unsupported locales).
-     *
-     * @return \Arcanedev\Localization\Entities\LocaleCollection
-     */
-    public function partitionSupported()
-    {
-        return $this->partition(function (Locale $locale) {
-            return in_array($locale->key, $this->supported);
-        });
     }
 }

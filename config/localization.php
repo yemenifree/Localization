@@ -22,11 +22,11 @@ return [
 
     'route'                  => [
         'middleware' => [
-            'localization-session-redirect' => true,
-            'localization-cookie-redirect'  => false,
-            'localization-redirect'         => true,
-            'localized-routes'              => true,
-            'translation-redirect'          => true,
+            Arcanedev\Localization\Middleware\LocaleSessionRedirect::class,
+            // Arcanedev\Localization\Middleware\LocaleCookieRedirect::class,
+            Arcanedev\Localization\Middleware\LocalizationRedirect::class,
+            Arcanedev\Localization\Middleware\LocalizationRoutes::class,
+            Arcanedev\Localization\Middleware\TranslationRedirect::class,
         ],
     ],
 

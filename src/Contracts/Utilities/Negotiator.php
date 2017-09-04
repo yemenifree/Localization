@@ -1,0 +1,37 @@
+<?php namespace Arcanedev\Localization\Contracts\Utilities;
+
+use Arcanedev\Localization\Entities\LocaleCollection;
+use Illuminate\Http\Request;
+
+/***
+ * Interface  Negotiator
+ *
+ * @package   Arcanedev\Localization\Contracts\Utilities
+ * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
+ */
+interface Negotiator
+{
+    /* -----------------------------------------------------------------
+     |  Main Methods
+     | -----------------------------------------------------------------
+     */
+
+    /**
+     * Make Negotiator instance.
+     *
+     * @param  string                                             $defaultLocale
+     * @param  \Arcanedev\Localization\Entities\LocaleCollection  $supportedLanguages
+     *
+     * @return self
+     */
+    public static function make($defaultLocale, LocaleCollection $supportedLanguages);
+
+    /**
+     * Negotiate the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return string
+     */
+    public function negotiate(Request $request);
+}

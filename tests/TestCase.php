@@ -77,17 +77,17 @@ abstract class TestCase extends BaseTestCase
          * @var  \Arcanedev\Localization\Contracts\Localization  $localization
          */
         $config       = $app['config'];
-        $translator   = $app['translator'];
+        $translator = $app['translator'];
 
         $config->set('app.debug', true);
         $config->set('app.url', $this->baseUrl);
 
         $config->set('localization.route.middleware', [
-            'localization-session-redirect' => false,
-            'localization-cookie-redirect'  => false,
-            'localization-redirect'         => true,
-            'localized-routes'              => true,
-            'translation-redirect'          => true,
+//            \Arcanedev\Localization\Middleware\LocaleSessionRedirect::class,
+//            \Arcanedev\Localization\Middleware\LocaleCookieRedirect::class,
+            \Arcanedev\Localization\Middleware\LocalizationRedirect::class,
+            \Arcanedev\Localization\Middleware\LocalizationRoutes::class,
+            \Arcanedev\Localization\Middleware\TranslationRedirect::class,
         ]);
 
         $translator->getLoader()->addNamespace(

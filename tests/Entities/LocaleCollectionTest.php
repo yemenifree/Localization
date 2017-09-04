@@ -71,37 +71,14 @@ class LocaleCollectionTest extends TestCase
     }
 
     /** @test */
-    public function it_can_get_supported_locales()
-    {
-        $this->locales
-            ->loadFromArray($this->getRawLocales())
-            ->setSupportedKeys($supportedLocales = $this->getSupportedLocales());
-
-        $count     = count($supportedLocales);
-        $supported = $this->locales->getSupported();
-
-        $this->assertFalse($supported->isEmpty());
-        $this->assertCount($count, $supported);
-        $this->assertSame($count, $supported->count());
-    }
-
-    /** @test */
     public function it_can_load_locales_from_config()
     {
         $this->locales->loadFromConfig();
-        $supported = $this->locales->getSupported();
 
         // Assert all locales
         $this->assertFalse($this->locales->isEmpty());
         $this->assertCount(289,  $this->locales);
         $this->assertSame(289, $this->locales->count());
-
-        // Assert supported locales
-        $this->assertFalse($supported->isEmpty());
-
-        $count = count($this->getSupportedLocales());
-        $this->assertCount($count,  $supported);
-        $this->assertSame($count, $supported->count());
     }
 
     /** @test */
@@ -113,28 +90,5 @@ class LocaleCollectionTest extends TestCase
 
         $this->assertInstanceOf(Locale::class, $locale);
         $this->assertSame('aa', $locale->key);
-    }
-
-    /** @test */
-    public function it_can_get_default_locale()
-    {
-        $this->locales->loadFromConfig();
-
-        $locale = $this->locales->getDefault();
-
-        $this->assertSame(config('app.locale'), $locale->key);
-    }
-
-    /** @test */
-    public function it_can_partition_supported()
-    {
-        $this->locales->loadFromConfig();
-
-        list($supported, $unsupported) = $this->locales->partitionSupported();
-
-        $supportedCount = count($this->getSupportedLocales());
-
-        $this->assertCount($supportedCount, $supported);
-        $this->assertCount($this->getRawLocalesCount() - $supportedCount, $unsupported);
     }
 }

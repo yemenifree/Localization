@@ -37,6 +37,8 @@ trait HasLocalizedRoutes
     {
         $this->router = $this->app->make('router');
 
+        $this->middlewareGroups['localization'] = config('localization.route.middleware');
+
         foreach ($this->middlewareGroups as $key => $middleware) {
             $this->router->middlewareGroup($key, $middleware);
         }

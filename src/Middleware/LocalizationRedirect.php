@@ -53,6 +53,8 @@ class LocalizationRedirect extends AbstractMiddleware
         $locale = $request->segment(1, null);
 
         if ($this->getSupportedLocales()->has($locale)) {
+            localization()->setLocale($locale);
+
             return $this->isDefaultLocaleHidden($locale)
                 ? localization()->getNonLocalizedURL()
                 : false;

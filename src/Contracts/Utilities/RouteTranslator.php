@@ -13,5 +13,13 @@ interface RouteTranslator
      | -----------------------------------------------------------------
      */
 
-    public function trans($name);
+    /**
+     * Translate routes and save them to the translated routes array (used in the localize route filter).
+     *
+     * @param  string       $name
+     * @param  string|null  $locale
+     *
+     * @return string
+     */
+    public function trans($name, $locale = null);
 }
