@@ -1,12 +1,13 @@
-<?php namespace Arcanedev\Localization\Tests\Entities;
+<?php
+
+namespace Arcanedev\Localization\Tests\Entities;
 
 use Arcanedev\Localization\Entities\Locale;
 use Arcanedev\Localization\Tests\TestCase;
 
 /**
- * Class     LocaleTest
+ * Class     LocaleTest.
  *
- * @package  Arcanedev\Localization\Tests\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LocaleTest extends TestCase
@@ -43,12 +44,12 @@ class LocaleTest extends TestCase
 
         $this->assertInstanceOf(Locale::class, $this->locale);
 
-        $this->assertSame('en',      $this->locale->key());
+        $this->assertSame('en', $this->locale->key());
         $this->assertSame('English', $this->locale->name());
-        $this->assertSame('Latin',   $this->locale->script());
-        $this->assertSame('ltr',     $this->locale->direction());
+        $this->assertSame('Latin', $this->locale->script());
+        $this->assertSame('ltr', $this->locale->direction());
         $this->assertSame('English', $this->locale->native());
-        $this->assertSame('en_GB',   $this->locale->regional());
+        $this->assertSame('en_GB', $this->locale->regional());
 
         $this->assertTrue($this->locale->isDefault());
     }
@@ -56,9 +57,9 @@ class LocaleTest extends TestCase
     /** @test */
     public function it_must_lower_direction_case()
     {
-        $key          = 'en';
-        $data         = $this->getLocale($key);
-        $data['dir']  = 'LTR';
+        $key = 'en';
+        $data = $this->getLocale($key);
+        $data['dir'] = 'LTR';
         $this->locale = new Locale($key, $data);
 
         $this->assertSame(strtolower($data['dir']), $this->locale->direction());
@@ -67,9 +68,9 @@ class LocaleTest extends TestCase
     /** @test */
     public function it_can_get_direction_if_empty()
     {
-        $key          = 'en';
-        $data         = $this->getLocale($key);
-        $data['dir']  = '';
+        $key = 'en';
+        $data = $this->getLocale($key);
+        $data['dir'] = '';
         $this->locale = new Locale($key, $data);
 
         $this->assertSame('ltr', $this->locale->direction());
@@ -100,7 +101,7 @@ class LocaleTest extends TestCase
     /**
      * Make a locale.
      *
-     * @param  string  $key
+     * @param string $key
      *
      * @return \Arcanedev\Localization\Entities\Locale
      */
@@ -112,7 +113,7 @@ class LocaleTest extends TestCase
     /**
      * Get locale data.
      *
-     * @param  string  $key
+     * @param string $key
      *
      * @return array
      */

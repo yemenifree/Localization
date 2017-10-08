@@ -1,13 +1,14 @@
-<?php namespace Arcanedev\Localization\Utilities;
+<?php
+
+namespace Arcanedev\Localization\Utilities;
 
 use Arcanedev\Localization\Contracts\RouteBindable;
 use Arcanedev\Localization\Contracts\Url as UrlContract;
 use Illuminate\Http\Request;
 
 /**
- * Class     Url
+ * Class     Url.
  *
- * @package  Arcanedev\Localization\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  *
  * @todo:    Refactoring
@@ -22,18 +23,20 @@ class Url implements UrlContract
     /**
      * Extract attributes for current url.
      *
-     * @param  bool|false|string  $url
+     * @param bool|false|string $url
      *
      * @return array
      */
     public static function extractAttributes($url = false)
     {
         $parse = parse_url($url);
-        $path  = isset($parse['path']) ? explode('/', $parse['path']) : [];
-        $url   = [];
+        $path = isset($parse['path']) ? explode('/', $parse['path']) : [];
+        $url = [];
 
         foreach ($path as $segment) {
-            if ( ! empty($segment)) $url[] = $segment;
+            if (!empty($segment)) {
+                $url[] = $segment;
+            }
         }
 
         /** @var \Illuminate\Routing\Router $router */
@@ -45,16 +48,17 @@ class Url implements UrlContract
     /**
      * Change uri attributes (wildcards) for the ones in the $attributes array.
      *
-     * @param  array   $attributes
-     * @param  string  $uri
+     * @param array  $attributes
+     * @param string $uri
      *
      * @return string
      */
     public static function substituteAttributes(array $attributes, $uri)
     {
         foreach ($attributes as $key => $value) {
-            if ($value instanceof RouteBindable)
+            if ($value instanceof RouteBindable) {
                 $value = $value->getWildcardValue();
+            }
 
             $uri = str_replace(['{'.$key.'?}', '{'.$key.'}'], $value, $uri);
         }
@@ -66,17 +70,19 @@ class Url implements UrlContract
     /**
      * Build URL using array data from parse_url.
      *
-     * @param  array|false  $parsed
+     * @param array|false $parsed
      *
      * @return string
      */
     public static function unparse($parsed)
     {
-        if (empty($parsed)) return '';
+        if (empty($parsed)) {
+            return '';
+        }
 
         $parsed = self::checkParsedUrl($parsed);
 
-        $url  = self::getUrl($parsed);
+        $url = self::getUrl($parsed);
         $url .= self::getQuery($parsed);
         $url .= self::getFragment($parsed);
 
@@ -91,8 +97,8 @@ class Url implements UrlContract
     /**
      * Extract attributes from routes.
      *
-     * @param  array                                $url
-     * @param  \Illuminate\Routing\RouteCollection  $routes
+     * @param array                               $url
+     * @param \Illuminate\Routing\RouteCollection $routes
      *
      * @return array
      */
@@ -102,18 +108,20 @@ class Url implements UrlContract
 
         foreach ($routes as $route) {
             /**
-             * @var  \Illuminate\Routing\Route  $route
-             * @var  \Illuminate\Http\Request   $request
+             * @var \Illuminate\Routing\Route
+             * @var \Illuminate\Http\Request  $request
              */
             $request = Request::create(implode('/', $url));
 
-            if ( ! $route->matches($request))
+            if (!$route->matches($request)) {
                 continue;
+            }
 
             $match = self::hasAttributesFromUriPath($url, $route->uri(), $attributes);
 
-            if ($match)
+            if ($match) {
                 break;
+            }
         }
 
         return $attributes;
@@ -122,17 +130,17 @@ class Url implements UrlContract
     /**
      * Check if has attributes from a route.
      *
-     * @param  array   $url
-     * @param  string  $path
-     * @param  array   $attributes
+     * @param array  $url
+     * @param string $path
+     * @param array  $attributes
      *
      * @return bool
      */
     private static function hasAttributesFromUriPath($url, $path, &$attributes)
     {
-        $i     = 0;
+        $i = 0;
         $match = true;
-        $path  = explode('/', $path);
+        $path = explode('/', $path);
 
         foreach ($path as $j => $segment) {
             if (isset($url[$i])) {
@@ -142,16 +150,16 @@ class Url implements UrlContract
 
                 $i++;
                 continue;
-            }
-            elseif ( ! preg_match('/{[\w]+\?}/', $segment)) {
+            } elseif (!preg_match('/{[\w]+\?}/', $segment)) {
                 // No optional parameters but no more $url given this route does not match the url
                 $match = false;
                 break;
             }
         }
 
-        if (isset($url[$i + 1]))
+        if (isset($url[$i + 1])) {
             $match = false;
+        }
 
         return $match;
     }
@@ -159,27 +167,27 @@ class Url implements UrlContract
     /**
      * Extract attribute from a segment.
      *
-     * @param  array   $url
-     * @param  array   $path
-     * @param  int     $i
-     * @param  int     $j
-     * @param  string  $segment
-     * @param  array   $attributes
+     * @param array  $url
+     * @param array  $path
+     * @param int    $i
+     * @param int    $j
+     * @param string $segment
+     * @param array  $attributes
      */
     private static function extractAttributesFromSegment($url, $path, $i, $j, $segment, &$attributes)
     {
         // Required parameters
         if (preg_match('/{[\w]+}/', $segment)) {
-            $attributeName              = preg_replace(['/{/', '/\?/', '/}/'], '', $segment);
+            $attributeName = preg_replace(['/{/', '/\?/', '/}/'], '', $segment);
             $attributes[$attributeName] = $url[$i];
         }
 
         // Optional parameter
         if (
             preg_match('/{[\w]+\?}/', $segment) &&
-            ( ! isset($path[$j + 1]) || $path[$j + 1] !== $url[$i])
+            (!isset($path[$j + 1]) || $path[$j + 1] !== $url[$i])
         ) {
-            $attributeName              = preg_replace(['/{/', '/\?/', '/}/'], '', $segment);
+            $attributeName = preg_replace(['/{/', '/\?/', '/}/'], '', $segment);
             $attributes[$attributeName] = $url[$i];
         }
     }
@@ -192,21 +200,21 @@ class Url implements UrlContract
     /**
      * Check parsed URL.
      *
-     * @param  array  $parsed
+     * @param array $parsed
      *
      * @return array
      */
     private static function checkParsedUrl(array $parsed)
     {
-        $scheme   =& $parsed['scheme'];
-        $user     =& $parsed['user'];
-        $pass     =& $parsed['pass'];
-        $host     =& $parsed['host'];
-        $port     =& $parsed['port'];
-        $path     =& $parsed['path'];
-        $path     = '/'.ltrim($path, '/'); // If / is missing for path.
-        $query    =& $parsed['query'];
-        $fragment =& $parsed['fragment'];
+        $scheme = &$parsed['scheme'];
+        $user = &$parsed['user'];
+        $pass = &$parsed['pass'];
+        $host = &$parsed['host'];
+        $port = &$parsed['port'];
+        $path = &$parsed['path'];
+        $path = '/'.ltrim($path, '/'); // If / is missing for path.
+        $query = &$parsed['query'];
+        $fragment = &$parsed['fragment'];
 
         return compact(
             'scheme', 'user', 'pass', 'host', 'port', 'path', 'query', 'fragment'
@@ -216,7 +224,7 @@ class Url implements UrlContract
     /**
      * Get URL.
      *
-     * @param  array  $parsed
+     * @param array $parsed
      *
      * @return string
      */
@@ -228,7 +236,7 @@ class Url implements UrlContract
     /**
      * Get hier part.
      *
-     * @param  array  $parsed
+     * @param array $parsed
      *
      * @return string
      */
@@ -242,7 +250,7 @@ class Url implements UrlContract
     /**
      * Get authority.
      *
-     * @param  array  $parsed
+     * @param array $parsed
      *
      * @return string
      */
@@ -256,7 +264,7 @@ class Url implements UrlContract
     /**
      * Get user info.
      *
-     * @param  array  $parsed
+     * @param array $parsed
      *
      * @return string
      */
@@ -268,7 +276,7 @@ class Url implements UrlContract
     /**
      * Get host.
      *
-     * @param  array  $parsed
+     * @param array $parsed
      *
      * @return string
      */
@@ -282,7 +290,7 @@ class Url implements UrlContract
     /**
      * Get Query.
      *
-     * @param  array  $parsed
+     * @param array $parsed
      *
      * @return string
      */
@@ -294,7 +302,7 @@ class Url implements UrlContract
     /**
      * Get fragment.
      *
-     * @param  array  $parsed
+     * @param array $parsed
      *
      * @return string
      */

@@ -1,13 +1,14 @@
-<?php namespace Arcanedev\Localization\Tests\Stubs\Models;
+<?php
+
+namespace Arcanedev\Localization\Tests\Stubs\Models;
 
 use Arcanedev\Localization\Traits\HasTranslations;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
 /**
- * Class     TranslatableModel
+ * Class     TranslatableModel.
  *
- * @package  Arcanedev\Localization\Tests\Stubs\Models
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  *
  * @property  int     id
@@ -28,11 +29,11 @@ class TranslatableModel extends Model
      | -----------------------------------------------------------------
      */
 
-    protected $table    = 'translatable_table';
+    protected $table = 'translatable_table';
 
     protected $fillable = ['name', 'slug'];
 
-    public $timestamps  = false;
+    public $timestamps = false;
 
     /* -----------------------------------------------------------------
      |  Getters & Setters
@@ -52,7 +53,7 @@ class TranslatableModel extends Model
     /**
      * Get the name attribute (accessor).
      *
-     * @param  string  $name
+     * @param string $name
      *
      * @return string
      */
@@ -64,7 +65,7 @@ class TranslatableModel extends Model
     /**
      * Set the slug attribute (mutator).
      *
-     * @param  string  $slug
+     * @param string $slug
      *
      * @return string
      */

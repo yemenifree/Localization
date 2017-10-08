@@ -1,12 +1,13 @@
-<?php namespace Arcanedev\Localization\Tests\Utilities;
+<?php
+
+namespace Arcanedev\Localization\Tests\Utilities;
 
 use Arcanedev\Localization\Tests\TestCase;
 use Arcanedev\Localization\Utilities\Url;
 
 /**
- * Class     UrlTest
+ * Class     UrlTest.
  *
- * @package  Arcanedev\Localization\Tests\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class UrlTest extends TestCase
@@ -36,7 +37,7 @@ class UrlTest extends TestCase
         ];
 
         foreach ($urls as $url) {
-            $parsed = ! empty($url) ? parse_url($url) : [];
+            $parsed = !empty($url) ? parse_url($url) : [];
 
             $this->assertSame($url, Url::unparse($parsed));
         }

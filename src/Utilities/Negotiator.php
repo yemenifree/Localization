@@ -1,4 +1,6 @@
-<?php namespace Arcanedev\Localization\Utilities;
+<?php
+
+namespace Arcanedev\Localization\Utilities;
 
 use Arcanedev\Localization\Contracts\Negotiator as NegotiatorContract;
 use Arcanedev\Localization\Entities\LocaleCollection;
@@ -6,9 +8,8 @@ use Illuminate\Http\Request;
 use Locale;
 
 /**
- * Class     Negotiator
+ * Class     Negotiator.
  *
- * @package  Arcanedev\Localization\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  *
  * Negotiates language with the user's browser through the Accept-Language HTTP header or the user's host address.
@@ -58,12 +59,12 @@ class Negotiator implements NegotiatorContract
     /**
      * Make Negotiator instance.
      *
-     * @param  string                                             $defaultLocale
-     * @param  \Arcanedev\Localization\Entities\LocaleCollection  $supportedLanguages
+     * @param string                                            $defaultLocale
+     * @param \Arcanedev\Localization\Entities\LocaleCollection $supportedLanguages
      */
     public function __construct($defaultLocale, LocaleCollection $supportedLanguages)
     {
-        $this->defaultLocale    = $defaultLocale;
+        $this->defaultLocale = $defaultLocale;
         $this->supportedLocales = $supportedLanguages;
     }
 
@@ -75,8 +76,8 @@ class Negotiator implements NegotiatorContract
     /**
      * Make Negotiator instance.
      *
-     * @param  string                                             $defaultLocale
-     * @param  \Arcanedev\Localization\Entities\LocaleCollection  $supportedLanguages
+     * @param string                                            $defaultLocale
+     * @param \Arcanedev\Localization\Entities\LocaleCollection $supportedLanguages
      *
      * @return self
      */
@@ -88,7 +89,7 @@ class Negotiator implements NegotiatorContract
     /**
      * Negotiate the request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return string
      */
@@ -96,14 +97,17 @@ class Negotiator implements NegotiatorContract
     {
         $this->request = $request;
 
-        if ( ! is_null($locale = $this->getFromAcceptedLanguagesHeader()))
+        if (!is_null($locale = $this->getFromAcceptedLanguagesHeader())) {
             return $locale;
+        }
 
-        if ( ! is_null($locale = $this->getFromHttpAcceptedLanguagesServer()))
+        if (!is_null($locale = $this->getFromHttpAcceptedLanguagesServer())) {
             return $locale;
+        }
 
-        if ( ! is_null($locale = $this->getFromRemoteHostServer()))
+        if (!is_null($locale = $this->getFromRemoteHostServer())) {
             return $locale;
+        }
 
         // TODO: Adding negotiate form IP Address ??
 
@@ -127,8 +131,6 @@ class Negotiator implements NegotiatorContract
         if (isset($matches['*'])) {
             return $this->supportedLocales->first()->key();
         }
-
-        return null;
     }
 
     /**
@@ -141,15 +143,16 @@ class Negotiator implements NegotiatorContract
         $httpAcceptLanguage = $this->request->server('HTTP_ACCEPT_LANGUAGE');
 
         // @codeCoverageIgnoreStart
-        if ( ! class_exists('Locale') || empty($httpAcceptLanguage))
-            return null;
+        if (!class_exists('Locale') || empty($httpAcceptLanguage)) {
+            return;
+        }
         // @codeCoverageIgnoreEnd
 
         $locale = Locale::acceptFromHttp($httpAcceptLanguage);
 
-        if ($this->isSupported($locale)) return $locale;
-
-        return null;
+        if ($this->isSupported($locale)) {
+            return $locale;
+        }
     }
 
     /**
@@ -159,11 +162,12 @@ class Negotiator implements NegotiatorContract
      */
     private function getFromRemoteHostServer()
     {
-        if (empty($remoteHost = $this->request->server('REMOTE_HOST')))
-            return null;
+        if (empty($remoteHost = $this->request->server('REMOTE_HOST'))) {
+            return;
+        }
 
         $remoteHost = explode('.', $remoteHost);
-        $locale     = strtolower(end($remoteHost));
+        $locale = strtolower(end($remoteHost));
 
         return $this->isSupported($locale) ? $locale : null;
     }
@@ -176,29 +180,31 @@ class Negotiator implements NegotiatorContract
     /**
      * Check if matches a supported locale.
      *
-     * @param  array  $matches
+     * @param array $matches
      *
      * @return null|string
      */
     private function inSupportedLocales(array $matches)
     {
         foreach (array_keys($matches) as $locale) {
-            if ($this->isSupported($locale)) return $locale;
+            if ($this->isSupported($locale)) {
+                return $locale;
+            }
 
             // Search for acceptable locale by 'regional' => 'fr_FR' match.
             foreach ($this->supportedLocales as $key => $entity) {
                 /** @var \Arcanedev\Localization\Entities\Locale $entity */
-                if ($entity->regional() == $locale) return $key;
+                if ($entity->regional() == $locale) {
+                    return $key;
+                }
             }
         }
-
-        return null;
     }
 
     /**
      * Check if the locale is supported.
      *
-     * @param  string  $locale
+     * @param string $locale
      *
      * @return bool
      */
@@ -213,9 +219,9 @@ class Negotiator implements NegotiatorContract
      */
 
     /**
-     * Return all the accepted languages from the browser
+     * Return all the accepted languages from the browser.
      *
-     * @return array  -  Matches from the header field Accept-Languages
+     * @return array -  Matches from the header field Accept-Languages
      */
     private function getMatchesFromAcceptedLanguages()
     {
@@ -223,7 +229,7 @@ class Negotiator implements NegotiatorContract
 
         $acceptLanguages = $this->request->header('Accept-Language');
 
-        if ( ! empty($acceptLanguages)) {
+        if (!empty($acceptLanguages)) {
             $acceptLanguages = explode(',', $acceptLanguages);
 
             $genericMatches = $this->retrieveGenericMatches($acceptLanguages, $matches);
@@ -238,8 +244,8 @@ class Negotiator implements NegotiatorContract
     /**
      * Get the generic matches.
      *
-     * @param  array  $acceptLanguages
-     * @param  array  $matches
+     * @param array $acceptLanguages
+     * @param array $matches
      *
      * @return array
      */
@@ -248,12 +254,12 @@ class Negotiator implements NegotiatorContract
         $genericMatches = [];
 
         foreach ($acceptLanguages as $option) {
-            $option  = array_map('trim', explode(';', $option));
-            $locale  = $option[0];
+            $option = array_map('trim', explode(';', $option));
+            $locale = $option[0];
             $quality = $this->getQualityFactor($locale, $option);
 
             // Unweighted values, get high weight by their position in the list
-            $quality          = isset($quality) ? $quality : 1000 - count($matches);
+            $quality = isset($quality) ? $quality : 1000 - count($matches);
             $matches[$locale] = $quality;
 
             // If for some reason the Accept-Language header only sends language with country we should make
@@ -261,10 +267,10 @@ class Negotiator implements NegotiatorContract
             $localeOptions = explode('-', $locale);
             array_pop($localeOptions);
 
-            while ( ! empty($localeOptions)) {
+            while (!empty($localeOptions)) {
                 //The new generic option needs to be slightly less important than it's base
                 $quality -= 0.001;
-                $opt      = implode('-', $localeOptions);
+                $opt = implode('-', $localeOptions);
 
                 if (empty($genericMatches[$opt]) || $genericMatches[$opt] > $quality) {
                     $genericMatches[$opt] = $quality;
@@ -280,23 +286,24 @@ class Negotiator implements NegotiatorContract
     /**
      * Get the quality factor.
      *
-     * @param  string  $locale
-     * @param  array   $option
+     * @param string $locale
+     * @param array  $option
      *
      * @return float|null
      */
     private function getQualityFactor($locale, $option)
     {
-        if (isset($option[1]))
+        if (isset($option[1])) {
             return (float) str_replace('q=', '', $option[1]);
+        }
 
         // Assign default low weight for generic values
-        if ($locale === '*/*')
+        if ($locale === '*/*') {
             return 0.01;
+        }
 
-        if (substr($locale, -1) === '*')
+        if (substr($locale, -1) === '*') {
             return 0.02;
-
-        return null;
+        }
     }
 }

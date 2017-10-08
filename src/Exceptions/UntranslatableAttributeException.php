@@ -1,9 +1,12 @@
-<?php namespace Arcanedev\Localization\Exceptions;
+<?php
+
+namespace Arcanedev\Localization\Exceptions;
 
 /**
- * Class     UntranslatableAttributeException
+ * Class     UntranslatableAttributeException.
  *
- * @package  Arcanedev\Localization\Exceptions
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class UntranslatableAttributeException extends LocalizationException {}
+class UntranslatableAttributeException extends LocalizationException
+{
+}

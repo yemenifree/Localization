@@ -1,9 +1,10 @@
-<?php namespace Arcanedev\Localization\Contracts;
+<?php
+
+namespace Arcanedev\Localization\Contracts;
 
 /**
- * Interface  Url
+ * Interface  Url.
  *
- * @package   Arcanedev\Localization\Contracts
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface Url
@@ -16,7 +17,7 @@ interface Url
     /**
      * Extract attributes for current url.
      *
-     * @param  bool|false|string  $url
+     * @param bool|false|string $url
      *
      * @return array
      */
@@ -25,8 +26,8 @@ interface Url
     /**
      * Change uri attributes (wildcards) for the ones in the $attributes array.
      *
-     * @param  array   $attributes
-     * @param  string  $uri
+     * @param array  $attributes
+     * @param string $uri
      *
      * @return string
      */
@@ -35,7 +36,7 @@ interface Url
     /**
      * Build URL using array data from parse_url.
      *
-     * @param  array|false  $parsed
+     * @param array|false $parsed
      *
      * @return string
      */

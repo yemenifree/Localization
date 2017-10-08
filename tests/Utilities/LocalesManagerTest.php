@@ -1,13 +1,14 @@
-<?php namespace Arcanedev\Localization\Tests\Utilities;
+<?php
+
+namespace Arcanedev\Localization\Tests\Utilities;
 
 use Arcanedev\Localization\Entities\Locale;
 use Arcanedev\Localization\Tests\TestCase;
 use Arcanedev\Localization\Utilities\LocalesManager;
 
 /**
- * Class     LocalesManagerTest
+ * Class     LocalesManagerTest.
  *
- * @package  Arcanedev\Localization\Tests\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LocalesManagerTest extends TestCase

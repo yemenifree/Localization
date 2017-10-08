@@ -1,11 +1,12 @@
-<?php namespace Arcanedev\Localization\Tests\Stubs\Http;
+<?php
+
+namespace Arcanedev\Localization\Tests\Stubs\Http;
 
 use Illuminate\Routing\Router;
 
 /**
- * Class     RouteRegistrar
+ * Class     RouteRegistrar.
  *
- * @package  Arcanedev\Localization\Tests\Stubs\Http
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class RouteRegistrar
@@ -31,7 +32,7 @@ class RouteRegistrar
     /**
      * Set the router.
      *
-     * @param  Router  $router
+     * @param Router $router
      *
      * @return self
      */
@@ -55,7 +56,7 @@ class RouteRegistrar
     /**
      * Set route names to routes collection.
      *
-     * @param  array  $names
+     * @param array $names
      *
      * @return self
      */
@@ -71,13 +72,13 @@ class RouteRegistrar
     /**
      * Set route name to routes collection.
      *
-     * @param  string  $name
+     * @param string $name
      *
      * @return self
      */
     private function setRouteName($name)
     {
-        if ( ! empty($name)) {
+        if (!empty($name)) {
             $this->routeNames[] = $name;
         }
 
@@ -92,7 +93,7 @@ class RouteRegistrar
     /**
      * Map the routes.
      *
-     * @param  Router  $router
+     * @param Router $router
      */
     public function map(Router $router)
     {
@@ -101,10 +102,10 @@ class RouteRegistrar
         $this->router->group(['middleware' => 'web'], function () {
             $this->router->localizedGroup(function () {
                 $this->router->get('/', [
-                    'as' =>  'index',
+                    'as' => 'index',
                     function () {
                         return app('translator')->get('localization::routes.hello');
-                    }
+                    },
                 ]);
                 $this->setRouteName('index');
 
@@ -112,7 +113,7 @@ class RouteRegistrar
                     'as' => 'test',
                     function () {
                         return app('translator')->get('localization::routes.test-text');
-                    }
+                    },
                 ]);
                 $this->setRouteName('test');
 
@@ -120,7 +121,7 @@ class RouteRegistrar
                     'as' => 'about',
                     function () {
                         return localization()->getLocalizedURL('es') ?: 'Not url available';
-                    }
+                    },
                 ]);
                 $this->setRouteName('about');
 
@@ -128,7 +129,7 @@ class RouteRegistrar
                     'as' => 'view',
                     function () {
                         return localization()->getLocalizedURL('es') ?: 'Not url available';
-                    }
+                    },
                 ]);
                 $this->setRouteName('view');
 
@@ -136,7 +137,7 @@ class RouteRegistrar
                     'as' => 'view-project',
                     function () {
                         return localization()->getLocalizedURL('es') ?: 'Not url available';
-                    }
+                    },
                 ]);
                 $this->setRouteName('view-project');
 
@@ -146,7 +147,7 @@ class RouteRegistrar
                     'as' => 'method.post',
                     function () {
                         return 'POST method';
-                    }
+                    },
                 ]);
                 $this->setRouteName('method.post');
 
@@ -154,7 +155,7 @@ class RouteRegistrar
                     'as' => 'method.put',
                     function () {
                         return 'PUT method';
-                    }
+                    },
                 ]);
                 $this->setRouteName('method.put');
 
@@ -162,7 +163,7 @@ class RouteRegistrar
                     'as' => 'method.patch',
                     function () {
                         return 'PATCH method';
-                    }
+                    },
                 ]);
                 $this->setRouteName('method.patch');
 
@@ -170,7 +171,7 @@ class RouteRegistrar
                     'as' => 'method.options',
                     function () {
                         return 'OPTIONS method';
-                    }
+                    },
                 ]);
                 $this->setRouteName('method.options');
 
@@ -178,7 +179,7 @@ class RouteRegistrar
                     'as' => 'method.delete',
                     function () {
                         return 'DELETE method';
-                    }
+                    },
                 ]);
                 $this->setRouteName('method.delete');
 
@@ -186,7 +187,7 @@ class RouteRegistrar
                     'as' => 'method.any',
                     function () {
                         return 'Any method';
-                    }
+                    },
                 ]);
                 $this->setRouteName('method.any');
 

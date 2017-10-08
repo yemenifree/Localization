@@ -1,11 +1,10 @@
-<?php namespace Arcanedev\Localization\Events;
+<?php
 
-use Illuminate\Database\Eloquent\Model;
+namespace Arcanedev\Localization\Events;
 
 /**
- * Class     TranslationHasBeenSet
+ * Class     TranslationHasBeenSet.
  *
- * @package  Arcanedev\Localization\Events
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class TranslationHasBeenSet
@@ -38,18 +37,18 @@ class TranslationHasBeenSet
     /**
      * TranslationHasBeenSet constructor.
      *
-     * @param  mixed   $model
-     * @param  string  $attribute
-     * @param  string  $locale
-     * @param  mixed   $oldValue
-     * @param  mixed   $newValue
+     * @param mixed  $model
+     * @param string $attribute
+     * @param string $locale
+     * @param mixed  $oldValue
+     * @param mixed  $newValue
      */
     public function __construct($model, $attribute, $locale, $oldValue, $newValue)
     {
-        $this->model     = $model;
+        $this->model = $model;
         $this->attribute = $attribute;
-        $this->locale    = $locale;
-        $this->oldValue  = $oldValue;
-        $this->newValue  = $newValue;
+        $this->locale = $locale;
+        $this->oldValue = $oldValue;
+        $this->newValue = $newValue;
     }
 }

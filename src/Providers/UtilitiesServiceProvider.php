@@ -1,4 +1,6 @@
-<?php namespace Arcanedev\Localization\Providers;
+<?php
+
+namespace Arcanedev\Localization\Providers;
 
 use Arcanedev\Localization\Contracts\LocalesManager as LocalesManagerContract;
 use Arcanedev\Localization\Contracts\Negotiator as NegotiatorContract;
@@ -9,9 +11,8 @@ use Arcanedev\Localization\Utilities\RouteTranslator;
 use Arcanedev\Support\ServiceProvider;
 
 /**
- * Class     UtilitiesServiceProvider
+ * Class     UtilitiesServiceProvider.
  *
- * @package  Arcanedev\Localization\Providers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class UtilitiesServiceProvider extends ServiceProvider
@@ -76,7 +77,7 @@ class UtilitiesServiceProvider extends ServiceProvider
     private function registerLocaleNegotiator()
     {
         $this->bind(NegotiatorContract::class, function ($app) {
-            /** @var  \Arcanedev\Localization\Contracts\LocalesManager  $manager */
+            /** @var \Arcanedev\Localization\Contracts\LocalesManager $manager */
             $manager = $app[LocalesManagerContract::class];
 
             return new Negotiator(

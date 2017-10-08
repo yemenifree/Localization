@@ -1,4 +1,6 @@
-<?php namespace Arcanedev\Localization\Middleware;
+<?php
+
+namespace Arcanedev\Localization\Middleware;
 
 use Arcanedev\Localization\Contracts\Localization;
 use Arcanedev\Localization\Entities\LocaleCollection;
@@ -7,9 +9,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 /**
- * Class     Middleware
+ * Class     Middleware.
  *
- * @package  Arcanedev\Localization\Bases
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class Middleware
@@ -41,18 +42,19 @@ abstract class Middleware
     /**
      * Middleware constructor.
      *
-     * @param  \Arcanedev\Localization\Contracts\Localization  $localization
+     * @param \Arcanedev\Localization\Contracts\Localization $localization
      */
     public function __construct(Localization $localization)
     {
         $this->localization = $localization;
-        $this->except       = config('localization.ignored-uri', []);
+        $this->except = config('localization.ignored-uri', []);
     }
 
     /* -----------------------------------------------------------------
      |  Getters & Setters
      | -----------------------------------------------------------------
      */
+
     /**
      * Get the default locale.
      *
@@ -103,7 +105,7 @@ abstract class Middleware
     /**
      * Check is default locale hidden.
      *
-     * @param  string|null  $locale
+     * @param string|null $locale
      *
      * @return bool
      */
@@ -115,18 +117,20 @@ abstract class Middleware
     /**
      * Determine if the request has a URI that should not be localized.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return bool
      */
     protected function shouldIgnore(Request $request)
     {
         foreach ($this->except as $except) {
-            if ($except !== '/')
+            if ($except !== '/') {
                 $except = trim($except, '/');
+            }
 
-            if ($request->is($except))
+            if ($request->is($except)) {
                 return true;
+            }
         }
 
         return false;
@@ -140,7 +144,7 @@ abstract class Middleware
     /**
      * Get the redirection response.
      *
-     * @param  string  $locale
+     * @param string $locale
      *
      * @return \Illuminate\Http\RedirectResponse|null
      */
@@ -154,8 +158,8 @@ abstract class Middleware
     /**
      * Make a redirect response.
      *
-     * @param  string  $url
-     * @param  int     $code
+     * @param string $url
+     * @param int    $code
      *
      * @return \Illuminate\Http\RedirectResponse
      */

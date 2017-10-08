@@ -1,12 +1,13 @@
-<?php namespace Arcanedev\Localization\Tests;
+<?php
+
+namespace Arcanedev\Localization\Tests;
 
 use Arcanedev\Localization\Events\TranslationHasBeenSet;
 use Arcanedev\Localization\Tests\Stubs\Models\TranslatableModel;
 
 /**
- * Class     TranslatableModelTest
+ * Class     TranslatableModelTest.
  *
- * @package  Arcanedev\Localization\Tests
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class TranslatableModelTest extends TestCase
@@ -30,7 +31,7 @@ class TranslatableModelTest extends TestCase
 
         $this->loadMigrationsFrom(realpath(__DIR__.'/fixtures/migrations'));
 
-        $this->model = new TranslatableModel;
+        $this->model = new TranslatableModel();
     }
 
     /* -----------------------------------------------------------------
@@ -110,8 +111,8 @@ class TranslatableModelTest extends TestCase
                     ->save();
 
         $this->assertSame('Name', $this->model->name);
-        $this->assertSame('Nom',  $this->model->getTranslation('name', 'fr'));
-        $this->assertSame('Nom',  $this->model->trans('name', 'fr'));
+        $this->assertSame('Nom', $this->model->getTranslation('name', 'fr'));
+        $this->assertSame('Nom', $this->model->trans('name', 'fr'));
     }
 
     /** @test */
@@ -265,7 +266,7 @@ class TranslatableModelTest extends TestCase
     /**
      * Set the fallback locale.
      *
-     * @param  string  $locale
+     * @param string $locale
      */
     private function setFallbackLocale($locale)
     {

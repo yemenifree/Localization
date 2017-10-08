@@ -1,4 +1,6 @@
-<?php namespace Arcanedev\Localization\Tests\Utilities;
+<?php
+
+namespace Arcanedev\Localization\Tests\Utilities;
 
 use Arcanedev\Localization\Tests\TestCase;
 use Arcanedev\Localization\Utilities\Negotiator;
@@ -6,9 +8,8 @@ use Illuminate\Http\Request;
 use Prophecy\Prophecy\ObjectProphecy;
 
 /**
- * Class     NegotiatorTest
+ * Class     NegotiatorTest.
  *
- * @package  Arcanedev\Localization\Tests\Utilities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class NegotiatorTest extends TestCase
@@ -149,7 +150,7 @@ class NegotiatorTest extends TestCase
     /**
      * Mock request with accept language header.
      *
-     * @param  string  $acceptLanguages
+     * @param string $acceptLanguages
      *
      * @return ObjectProphecy
      */
@@ -167,7 +168,7 @@ class NegotiatorTest extends TestCase
     /**
      * Mock request with HTTP Accept Language server.
      *
-     * @param  string  $acceptLanguages
+     * @param string $acceptLanguages
      *
      * @return ObjectProphecy
      */
@@ -185,9 +186,9 @@ class NegotiatorTest extends TestCase
     /**
      * Mock request with REMOTE_HOST server.
      *
-     * @param  string  $remoteHost
-     * @param  string  $httpAcceptLanguages
-     * @param  string  $acceptLanguages
+     * @param string $remoteHost
+     * @param string $httpAcceptLanguages
+     * @param string $acceptLanguages
      *
      * @return ObjectProphecy
      */

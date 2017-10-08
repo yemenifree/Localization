@@ -1,9 +1,10 @@
-<?php namespace Arcanedev\Localization\Contracts;
+<?php
+
+namespace Arcanedev\Localization\Contracts;
 
 /**
- * Interface  LocalesManager
+ * Interface  LocalesManager.
  *
- * @package   Arcanedev\Localization\Contracts
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface LocalesManager
@@ -16,7 +17,7 @@ interface LocalesManager
     /**
      * Set and return current locale.
      *
-     * @param  string|null  $locale
+     * @param string|null $locale
      *
      * @return string
      */
@@ -32,7 +33,7 @@ interface LocalesManager
     /**
      * Set the default locale.
      *
-     * @param  string  $defaultLocale
+     * @param string $defaultLocale
      *
      * @return self
      */
@@ -48,7 +49,7 @@ interface LocalesManager
     /**
      * Set the current locale.
      *
-     * @param  string  $currentLocale
+     * @param string $currentLocale
      *
      * @return self
      */
@@ -85,7 +86,7 @@ interface LocalesManager
     /**
      * Set supported locales.
      *
-     * @param  array  $supportedLocales
+     * @param array $supportedLocales
      *
      * @return self
      */
@@ -99,7 +100,7 @@ interface LocalesManager
     /**
      * Check if default is supported.
      *
-     * @param  string  $defaultLocale
+     * @param string $defaultLocale
      *
      * @throws \Arcanedev\Localization\Exceptions\UnsupportedLocaleException
      */
@@ -108,7 +109,7 @@ interface LocalesManager
     /**
      * Check if locale is supported.
      *
-     * @param  string  $locale
+     * @param string $locale
      *
      * @return bool
      */

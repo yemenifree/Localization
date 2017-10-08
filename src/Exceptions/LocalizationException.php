@@ -1,11 +1,14 @@
-<?php namespace Arcanedev\Localization\Exceptions;
+<?php
+
+namespace Arcanedev\Localization\Exceptions;
 
 use Exception;
 
 /**
- * Class     LocalizationException
+ * Class     LocalizationException.
  *
- * @package  Arcanedev\Localization\Exceptions
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-abstract class LocalizationException extends Exception {}
+abstract class LocalizationException extends Exception
+{
+}

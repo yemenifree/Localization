@@ -1,9 +1,12 @@
-<?php namespace Arcanedev\Localization\Exceptions;
+<?php
+
+namespace Arcanedev\Localization\Exceptions;
 
 /**
- * Class     UnsupportedLocaleException
+ * Class     UnsupportedLocaleException.
  *
- * @package  Arcanedev\Localization\Exceptions
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class UnsupportedLocaleException extends LocalizationException {}
+class UnsupportedLocaleException extends LocalizationException
+{
+}

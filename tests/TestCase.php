@@ -1,11 +1,12 @@
-<?php namespace Arcanedev\Localization\Tests;
+<?php
+
+namespace Arcanedev\Localization\Tests;
 
 use Orchestra\Testbench\BrowserKit\TestCase as BaseTestCase;
 
 /**
- * Class     TestCase
+ * Class     TestCase.
  *
- * @package  Arcanedev\Localization\Tests
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 abstract class TestCase extends BaseTestCase
@@ -15,17 +16,17 @@ abstract class TestCase extends BaseTestCase
      | -----------------------------------------------------------------
      */
 
-    /** @var string  */
-    protected $defaultLocale    = 'en';
+    /** @var string */
+    protected $defaultLocale = 'en';
 
     /** @var array */
     protected $supportedLocales = ['en', 'es', 'fr'];
 
-    /** @var string  */
-    protected $testUrlOne       = 'http://localhost/';
+    /** @var string */
+    protected $testUrlOne = 'http://localhost/';
 
-    /** @var string  */
-    protected $testUrlTwo       = 'http://localhost';
+    /** @var string */
+    protected $testUrlTwo = 'http://localhost';
 
     /** @var Stubs\Http\RouteRegistrar */
     protected $routeRegistrar;
@@ -38,7 +39,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * Get package providers.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param \Illuminate\Foundation\Application $app
      *
      * @return array
      */
@@ -53,7 +54,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * Get package aliases.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param \Illuminate\Foundation\Application $app
      *
      * @return array
      */
@@ -67,7 +68,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * Resolve application HTTP Kernel implementation.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param \Illuminate\Foundation\Application $app
      */
     protected function resolveApplicationHttpKernel($app)
     {
@@ -77,22 +78,22 @@ abstract class TestCase extends BaseTestCase
     /**
      * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application   $app
+     * @param \Illuminate\Foundation\Application $app
      *
      * @return void
      */
     protected function getEnvironmentSetUp($app)
     {
         /**
-         * @var  \Illuminate\Contracts\Config\Repository         $config
-         * @var  \Illuminate\Translation\Translator              $translator
-         * @var  \Arcanedev\Localization\Contracts\Localization  $localization
+         * @var \Illuminate\Contracts\Config\Repository
+         * @var \Illuminate\Translation\Translator             $translator
+         * @var \Arcanedev\Localization\Contracts\Localization $localization
          */
-        $config       = $app['config'];
-        $translator   = $app['translator'];
+        $config = $app['config'];
+        $translator = $app['translator'];
         $localization = $app[\Arcanedev\Localization\Contracts\Localization::class];
 
-        $config->set('app.url',    $this->testUrlOne);
+        $config->set('app.url', $this->testUrlOne);
         $config->set('app.locale', $this->defaultLocale);
         $config->set('localization.route.middleware', [
             'localization-session-redirect' => false,
@@ -104,7 +105,7 @@ abstract class TestCase extends BaseTestCase
 
         $translator->getLoader()->addNamespace(
             'localization',
-            realpath(__DIR__) . DS . 'fixtures'. DS .'lang'
+            realpath(__DIR__).DS.'fixtures'.DS.'lang'
         );
 
         $translator->load('localization', 'routes', 'en');
@@ -118,11 +119,11 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Refresh routes and refresh application
+     * Refresh routes and refresh application.
      *
-     * @param  bool|string  $locale
-     * @param  bool         $session
-     * @param  bool         $cookie
+     * @param bool|string $locale
+     * @param bool        $session
+     * @param bool        $cookie
      */
     protected function refreshApplication($locale = false, $session = false, $cookie = false)
     {
@@ -145,13 +146,13 @@ abstract class TestCase extends BaseTestCase
      */
 
     /**
-     * Set routes for testing
+     * Set routes for testing.
      *
-     * @param  string|bool  $locale
+     * @param string|bool $locale
      */
     protected function setRoutes($locale = false)
     {
-        $this->routeRegistrar = new Stubs\Http\RouteRegistrar;
+        $this->routeRegistrar = new Stubs\Http\RouteRegistrar();
 
         if ($locale) {
             localization()->setLocale($locale);
@@ -163,7 +164,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * Set the database.
      *
-     * @param  \Illuminate\Contracts\Config\Repository  $config
+     * @param \Illuminate\Contracts\Config\Repository $config
      */
     protected function setDatabase($config)
     {

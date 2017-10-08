@@ -1,11 +1,12 @@
-<?php namespace Arcanedev\Localization\Contracts;
+<?php
+
+namespace Arcanedev\Localization\Contracts;
 
 use Illuminate\Http\Request;
 
 /**
- * Interface  Localization
+ * Interface  Localization.
  *
- * @package   Arcanedev\Localization\Contracts
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface Localization
@@ -32,7 +33,7 @@ interface Localization
     /**
      * Set the supported locales.
      *
-     * @param  array  $supportedLocales
+     * @param array $supportedLocales
      *
      * @return self
      */
@@ -104,7 +105,7 @@ interface Localization
     /**
      * Set and return current locale.
      *
-     * @param  string  $locale
+     * @param string $locale
      *
      * @return string
      */
@@ -113,14 +114,14 @@ interface Localization
     /**
      * Sets the base url for the site.
      *
-     * @param  string  $url
+     * @param string $url
      */
     public function setBaseUrl($url);
 
     /**
      * Set route name from request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      */
     public function setRouteNameFromRequest(Request $request);
 
@@ -132,7 +133,7 @@ interface Localization
     /**
      * Translate routes and save them to the translated routes array (used in the localize route filter).
      *
-     * @param  string  $routeName
+     * @param string $routeName
      *
      * @return string
      */
@@ -141,8 +142,8 @@ interface Localization
     /**
      * Returns an URL adapted to $locale or current locale.
      *
-     * @param  string       $url
-     * @param  string|null  $locale
+     * @param string      $url
+     * @param string|null $locale
      *
      * @return string
      */
@@ -151,7 +152,7 @@ interface Localization
     /**
      * It returns an URL without locale (if it has it).
      *
-     * @param  string|false  $url
+     * @param string|false $url
      *
      * @return string
      */
@@ -160,10 +161,10 @@ interface Localization
     /**
      * Returns an URL adapted to $locale.
      *
-     * @param  string|null  $locale
-     * @param  string|null  $url
-     * @param  array        $attributes
-     * @param  bool|bool    $showHiddenLocale
+     * @param string|null $locale
+     * @param string|null $url
+     * @param array       $attributes
+     * @param bool|bool   $showHiddenLocale
      *
      * @return string|false
      */
@@ -172,7 +173,7 @@ interface Localization
     /**
      * Create an url from the uri.
      *
-     * @param  string  $uri
+     * @param string $uri
      *
      * @return string
      */
@@ -182,13 +183,14 @@ interface Localization
      |  Translation Methods
      | -----------------------------------------------------------------
      */
+
     /**
      * Returns an URL adapted to the route name and the locale given.
      *
-     * @param  string|bool  $locale
-     * @param  string       $transKey
-     * @param  array        $attributes
-     * @param  bool|false   $showHiddenLocale
+     * @param string|bool $locale
+     * @param string      $transKey
+     * @param array       $attributes
+     * @param bool|false  $showHiddenLocale
      *
      * @return string|false
      */
@@ -209,7 +211,7 @@ interface Localization
     /**
      * Check if Locale exists on the supported locales collection.
      *
-     * @param  string|bool  $locale
+     * @param string|bool $locale
      *
      * @return bool
      */

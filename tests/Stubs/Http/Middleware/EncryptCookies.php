@@ -1,11 +1,12 @@
-<?php namespace Arcanedev\Localization\Tests\Stubs\Http\Middleware;
+<?php
+
+namespace Arcanedev\Localization\Tests\Stubs\Http\Middleware;
 
 use Illuminate\Cookie\Middleware\EncryptCookies as BaseEncrypter;
 
 /**
- * Class     EncryptCookies
+ * Class     EncryptCookies.
  *
- * @package  Arcanedev\Localization\Tests\Stubs\Http\Middleware
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class EncryptCookies extends BaseEncrypter
@@ -21,6 +22,6 @@ class EncryptCookies extends BaseEncrypter
      * @var array
      */
     protected $except = [
-        'locale'
+        'locale',
     ];
 }

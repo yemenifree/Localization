@@ -4,7 +4,7 @@ use Arcanedev\Support\Bases\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 /**
- * Class     CreateTranslatableTable
+ * Class     CreateTranslatableTable.
  *
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */

@@ -1,12 +1,13 @@
-<?php namespace Arcanedev\Localization\Middleware;
+<?php
+
+namespace Arcanedev\Localization\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 
 /**
- * Class     LocalizationRoutes
+ * Class     LocalizationRoutes.
  *
- * @package  Arcanedev\Localization\Middleware
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LocalizationRoutes extends Middleware
@@ -19,15 +20,17 @@ class LocalizationRoutes extends Middleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure                  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
      *
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
     {
         // If the request URL is ignored from localization.
-        if ($this->shouldIgnore($request)) return $next($request);
+        if ($this->shouldIgnore($request)) {
+            return $next($request);
+        }
 
         $this->localization->setRouteNameFromRequest($request);
 
