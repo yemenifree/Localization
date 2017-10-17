@@ -1,9 +1,10 @@
-<?php namespace Arcanedev\Localization\Contracts;
+<?php
+
+namespace Arcanedev\Localization\Contracts;
 
 /**
- * Interface  RouteBindable
+ * Interface  RouteBindable.
  *
- * @package   Arcanedev\Localization\Contracts
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface RouteBindable

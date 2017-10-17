@@ -1,11 +1,12 @@
-<?php namespace Arcanedev\Localization;
+<?php
+
+namespace Arcanedev\Localization;
 
 use Arcanedev\Support\PackageServiceProvider;
 
 /**
- * Class     LocalizationServiceProvider
+ * Class     LocalizationServiceProvider.
  *
- * @package  Arcanedev\Localization
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LocalizationServiceProvider extends PackageServiceProvider

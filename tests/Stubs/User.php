@@ -1,11 +1,12 @@
-<?php namespace Arcanedev\Localization\Tests\Stubs;
+<?php
+
+namespace Arcanedev\Localization\Tests\Stubs;
 
 use Arcanedev\Localization\Contracts\RouteBindable;
 
 /**
- * Class     User
+ * Class     User.
  *
- * @package  Arcanedev\Localization\Tests\Stubs
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class User implements RouteBindable
@@ -30,7 +31,7 @@ class User implements RouteBindable
     /**
      * User constructor.
      *
-     * @param  string  $username
+     * @param string $username
      */
     public function __construct($username)
     {

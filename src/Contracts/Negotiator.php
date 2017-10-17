@@ -1,12 +1,13 @@
-<?php namespace Arcanedev\Localization\Contracts;
+<?php
+
+namespace Arcanedev\Localization\Contracts;
 
 use Arcanedev\Localization\Entities\LocaleCollection;
 use Illuminate\Http\Request;
 
 /**
- * Interface  Negotiator
+ * Interface  Negotiator.
  *
- * @package   Arcanedev\Localization\Contracts
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface Negotiator
@@ -19,8 +20,8 @@ interface Negotiator
     /**
      * Make Negotiator instance.
      *
-     * @param  string                                             $defaultLocale
-     * @param  \Arcanedev\Localization\Entities\LocaleCollection  $supportedLanguages
+     * @param string                                            $defaultLocale
+     * @param \Arcanedev\Localization\Entities\LocaleCollection $supportedLanguages
      *
      * @return self
      */
@@ -29,7 +30,7 @@ interface Negotiator
     /**
      * Negotiate the request.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return string
      */

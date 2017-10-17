@@ -1,11 +1,12 @@
-<?php namespace Arcanedev\Localization\Contracts;
+<?php
+
+namespace Arcanedev\Localization\Contracts;
 
 use Arcanedev\Localization\Entities\LocaleCollection;
 
 /**
- * Interface  RouteTranslator
+ * Interface  RouteTranslator.
  *
- * @package   Arcanedev\Localization\Contracts
  * @author    ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 interface RouteTranslator
@@ -25,7 +26,7 @@ interface RouteTranslator
     /**
      * Set the current route.
      *
-     * @param  false|string  $currentRoute
+     * @param false|string $currentRoute
      *
      * @return self
      */
@@ -46,8 +47,8 @@ interface RouteTranslator
     /**
      * Translate routes and save them to the translated routes array (used in the localize route filter).
      *
-     * @param  string       $route
-     * @param  string|null  $locale
+     * @param string      $route
+     * @param string|null $locale
      *
      * @return string
      */
@@ -56,10 +57,10 @@ interface RouteTranslator
     /**
      * Get the translated route.
      *
-     * @param  string                                             $baseUrl
-     * @param  array|false                                        $parsedUrl
-     * @param  string                                             $defaultLocale
-     * @param  \Arcanedev\Localization\Entities\LocaleCollection  $supportedLocales
+     * @param string                                            $baseUrl
+     * @param array|false                                       $parsedUrl
+     * @param string                                            $defaultLocale
+     * @param \Arcanedev\Localization\Entities\LocaleCollection $supportedLocales
      *
      * @return string|false
      */
@@ -70,8 +71,8 @@ interface RouteTranslator
     /**
      * Returns the translation key for a given path.
      *
-     * @param  string  $uri
-     * @param  string  $locale
+     * @param string $uri
+     * @param string $locale
      *
      * @return false|string
      */
@@ -80,8 +81,8 @@ interface RouteTranslator
     /**
      * Returns the translated route for the path and the url given.
      *
-     * @param  string  $path    -  Path to check if it is a translated route
-     * @param  string  $locale  -  Language to check if the path exists
+     * @param string $path   -  Path to check if it is a translated route
+     * @param string $locale -  Language to check if the path exists
      *
      * @return string|false
      */
@@ -90,12 +91,12 @@ interface RouteTranslator
     /**
      * Get URL from route name.
      *
-     * @param  string      $locale
-     * @param  string      $defaultLocale
-     * @param  string      $transKey
-     * @param  array       $attributes
-     * @param  bool|false  $defaultHidden
-     * @param  bool|false  $showHiddenLocale
+     * @param string     $locale
+     * @param string     $defaultLocale
+     * @param string     $transKey
+     * @param array      $attributes
+     * @param bool|false $defaultHidden
+     * @param bool|false $showHiddenLocale
      *
      * @return string
      */
@@ -118,8 +119,8 @@ interface RouteTranslator
     /**
      * Determine if a translation exists.
      *
-     * @param  string  $key
-     * @param  string  $locale
+     * @param string $key
+     * @param string $locale
      *
      * @return bool
      */

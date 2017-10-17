@@ -1,13 +1,14 @@
-<?php namespace Arcanedev\Localization\Entities;
+<?php
+
+namespace Arcanedev\Localization\Entities;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use JsonSerializable;
 
 /**
- * Class     Locale
+ * Class     Locale.
  *
- * @package  Arcanedev\Localization\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class Locale implements Arrayable, Jsonable, JsonSerializable
@@ -74,8 +75,8 @@ class Locale implements Arrayable, Jsonable, JsonSerializable
     /**
      * Create Locale instance.
      *
-     * @param  string  $key
-     * @param  array   $data
+     * @param string $key
+     * @param array  $data
      */
     public function __construct($key, array $data)
     {
@@ -105,7 +106,7 @@ class Locale implements Arrayable, Jsonable, JsonSerializable
     /**
      * Set locale key.
      *
-     * @param  string  $key
+     * @param string $key
      *
      * @return self
      */
@@ -130,7 +131,7 @@ class Locale implements Arrayable, Jsonable, JsonSerializable
     /**
      * Set name.
      *
-     * @param  string  $name
+     * @param string $name
      *
      * @return self
      */
@@ -154,7 +155,7 @@ class Locale implements Arrayable, Jsonable, JsonSerializable
     /**
      * Set Script.
      *
-     * @param  string  $script
+     * @param string $script
      *
      * @return self
      */
@@ -174,7 +175,7 @@ class Locale implements Arrayable, Jsonable, JsonSerializable
     {
         if (empty($this->direction)) {
             $this->direction = in_array($this->script, [
-                'Arab', 'Hebr', 'Mong', 'Tfng', 'Thaa'
+                'Arab', 'Hebr', 'Mong', 'Tfng', 'Thaa',
             ]) ? 'rtl' : 'ltr';
         }
 
@@ -184,13 +185,13 @@ class Locale implements Arrayable, Jsonable, JsonSerializable
     /**
      * Set Direction.
      *
-     * @param  string  $direction
+     * @param string $direction
      *
      * @return self
      */
     private function setDirection($direction)
     {
-        if ( ! empty($direction)) {
+        if (!empty($direction)) {
             $this->direction = strtolower($direction);
         }
 
@@ -210,7 +211,7 @@ class Locale implements Arrayable, Jsonable, JsonSerializable
     /**
      * Set Native.
      *
-     * @param  string  $native
+     * @param string $native
      *
      * @return self
      */
@@ -234,7 +235,7 @@ class Locale implements Arrayable, Jsonable, JsonSerializable
     /**
      * Set Regional.
      *
-     * @param  string  $regional
+     * @param string $regional
      *
      * @return self
      */
@@ -275,8 +276,8 @@ class Locale implements Arrayable, Jsonable, JsonSerializable
     /**
      * Create Locale instance.
      *
-     * @param  string  $key
-     * @param  array   $data
+     * @param string $key
+     * @param array  $data
      *
      * @return self
      */
@@ -310,7 +311,7 @@ class Locale implements Arrayable, Jsonable, JsonSerializable
     /**
      * Convert the object to its JSON representation.
      *
-     * @param  int  $options
+     * @param int $options
      *
      * @return string
      */

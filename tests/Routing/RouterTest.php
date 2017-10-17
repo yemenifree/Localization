@@ -1,12 +1,13 @@
-<?php namespace Arcanedev\Localization\Tests\Routing;
+<?php
 
-use Illuminate\Routing\Router;
+namespace Arcanedev\Localization\Tests\Routing;
+
 use Arcanedev\Localization\Tests\TestCase;
+use Illuminate\Routing\Router;
 
 /**
- * Class     RouterTest
+ * Class     RouterTest.
  *
- * @package  Arcanedev\Localization\Tests\Routing
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class RouterTest extends TestCase
@@ -53,7 +54,7 @@ class RouterTest extends TestCase
     /** @test */
     public function it_can_get_and_check_all_routes()
     {
-        $routes     = $this->router->getRoutes();
+        $routes = $this->router->getRoutes();
         $routeNames = $this->routeRegistrar->getRouteNames();
 
         $this->assertInstanceOf(\Illuminate\Routing\RouteCollection::class, $routes);

@@ -1,13 +1,14 @@
-<?php namespace Arcanedev\Localization\Middleware;
+<?php
+
+namespace Arcanedev\Localization\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 
 /**
- * Class     TranslationRedirect
+ * Class     TranslationRedirect.
  *
- * @package  Arcanedev\Localization\Middleware
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class TranslationRedirect extends Middleware
@@ -27,15 +28,17 @@ class TranslationRedirect extends Middleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure                  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
      *
      * @return mixed
      */
     public function handle(Request $request, Closure $next)
     {
         // If the request URL is ignored from localization.
-        if ($this->shouldIgnore($request)) return $next($request);
+        if ($this->shouldIgnore($request)) {
+            return $next($request);
+        }
 
         return is_null($translatedUrl = $this->getTranslatedUrl($request))
             ? $next($request)
@@ -50,7 +53,7 @@ class TranslationRedirect extends Middleware
     /**
      * Get translated URL.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return string|null
      */
@@ -59,8 +62,9 @@ class TranslationRedirect extends Middleware
         /** @var Route $route */
         $route = $request->route();
 
-        if ( ! ($route instanceof Route) || is_null($route->getName()))
-            return null;
+        if (!($route instanceof Route) || is_null($route->getName())) {
+            return;
+        }
 
         return $this->translateRoute($route->getName(), $route->parameters());
     }
@@ -68,29 +72,30 @@ class TranslationRedirect extends Middleware
     /**
      * Translate route.
      *
-     * @param  string  $routeName
-     * @param  array   $attributes
+     * @param string $routeName
+     * @param array  $attributes
      *
      * @return string|null
      */
     public function translateRoute($routeName, $attributes = [])
     {
-        if (empty($attributes)) return null;
+        if (empty($attributes)) {
+            return;
+        }
 
         $transAttributes = $this->fireEvent($this->getCurrentLocale(), $routeName, $attributes);
 
-        if ( ! empty($transAttributes) && $transAttributes !== $attributes)
+        if (!empty($transAttributes) && $transAttributes !== $attributes) {
             return route($routeName, $transAttributes);
-
-        return null;
+        }
     }
 
     /**
      * Fire translation event.
      *
-     * @param  string  $locale
-     * @param  string  $route
-     * @param  array   $attributes
+     * @param string $locale
+     * @param string $route
+     * @param array  $attributes
      *
      * @return array
      */
@@ -98,11 +103,13 @@ class TranslationRedirect extends Middleware
     {
         $response = event(self::EVENT_NAME, [$locale, $route, $attributes]);
 
-        if ( ! empty($response))
+        if (!empty($response)) {
             $response = array_shift($response);
+        }
 
-        if (is_array($response))
+        if (is_array($response)) {
             $attributes = array_merge($attributes, $response);
+        }
 
         return $attributes;
     }

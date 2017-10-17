@@ -1,12 +1,13 @@
-<?php namespace Arcanedev\Localization\Tests;
+<?php
+
+namespace Arcanedev\Localization\Tests;
 
 use Arcanedev\Localization\Entities\LocaleCollection;
 use Arcanedev\Localization\Localization;
 
 /**
- * Class     LocalizationTest
+ * Class     LocalizationTest.
  *
- * @package  Arcanedev\Localization\Tests
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LocalizationTest extends TestCase
@@ -48,7 +49,7 @@ class LocalizationTest extends TestCase
         $this->assertFalse($supportedLocales->isEmpty());
         $this->assertCount(count($this->supportedLocales), $supportedLocales);
 
-        foreach($this->supportedLocales as $locale) {
+        foreach ($this->supportedLocales as $locale) {
             $this->assertTrue($supportedLocales->has($locale));
         }
 
@@ -61,7 +62,7 @@ class LocalizationTest extends TestCase
         $this->assertFalse($supportedLocales->isEmpty());
         $this->assertCount(count($locales), $supportedLocales);
 
-        foreach($locales as $locale) {
+        foreach ($locales as $locale) {
             $this->assertTrue($supportedLocales->has($locale));
         }
     }
@@ -264,11 +265,11 @@ class LocalizationTest extends TestCase
     /**
      * @test
      *
-     * @param  bool    $hideDefault
-     * @param  bool    $forceDefault
-     * @param  string  $locale
-     * @param  string  $url
-     * @param  string  $expected
+     * @param bool   $hideDefault
+     * @param bool   $forceDefault
+     * @param string $locale
+     * @param string $url
+     * @param string $expected
      *
      * @dataProvider getLocalizedURLDataProvider
      */
@@ -295,7 +296,7 @@ class LocalizationTest extends TestCase
         );
         $this->assertSame(
             $this->testUrlOne.'en/view/1',
-            localization()->getUrlFromRouteName('en', 'localization::routes.view', [ 'id' => 1 ])
+            localization()->getUrlFromRouteName('en', 'localization::routes.view', ['id' => 1])
         );
 
         app('config')->set('localization.hide-default-in-url', true);
@@ -458,8 +459,8 @@ class LocalizationTest extends TestCase
 
         $this->assertContains('<ul class="navbar-locales">', $navbar);
         $this->assertContains('<li class="active">', $navbar);
-        $this->assertContains(e('English'),  $navbar);
-        $this->assertContains(e('Español'),  $navbar);
+        $this->assertContains(e('English'), $navbar);
+        $this->assertContains(e('Español'), $navbar);
         $this->assertContains(e('Français'), $navbar);
     }
 
@@ -479,11 +480,11 @@ class LocalizationTest extends TestCase
     {
         $this->assertSame($this->testUrlOne.'en', localization()->LocalizeURL('/'));
 
-        $urls  = [
+        $urls = [
             '/contact',
             '/contact/',
             $this->testUrlOne.'/contact',
-            $this->testUrlOne.'/contact/'
+            $this->testUrlOne.'/contact/',
         ];
 
         foreach ($urls as $url) {
@@ -535,8 +536,8 @@ class LocalizationTest extends TestCase
     /**
      * Make a call.
      *
-     * @param  string  $uri
-     * @param  array   $server
+     * @param string $uri
+     * @param array  $server
      *
      * @return \Illuminate\Http\Response
      */
@@ -549,6 +550,7 @@ class LocalizationTest extends TestCase
      |  Providers
      | -----------------------------------------------------------------
      */
+
     /**
      * Provide data for `it_can_get_localized_url_with_specific_format`.
      *

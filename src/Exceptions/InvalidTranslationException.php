@@ -1,9 +1,12 @@
-<?php namespace Arcanedev\Localization\Exceptions;
+<?php
+
+namespace Arcanedev\Localization\Exceptions;
 
 /**
- * Class     InvalidTranslationException
+ * Class     InvalidTranslationException.
  *
- * @package  Arcanedev\Localization\Exceptions
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
-class InvalidTranslationException extends LocalizationException {}
+class InvalidTranslationException extends LocalizationException
+{
+}

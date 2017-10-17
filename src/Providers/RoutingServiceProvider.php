@@ -1,13 +1,14 @@
-<?php namespace Arcanedev\Localization\Providers;
+<?php
+
+namespace Arcanedev\Localization\Providers;
 
 use Arcanedev\Localization\Middleware;
-use Arcanedev\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Arcanedev\Localization\Routing\Router;
+use Arcanedev\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 /**
- * Class     RoutingServiceProvider
+ * Class     RoutingServiceProvider.
  *
- * @package  Arcanedev\Localization\Providers
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class RoutingServiceProvider extends ServiceProvider

@@ -1,11 +1,12 @@
-<?php namespace Arcanedev\Localization\Tests;
+<?php
+
+namespace Arcanedev\Localization\Tests;
 
 use Arcanedev\Localization\LocalizationServiceProvider;
 
 /**
- * Class     LocalizationServiceProviderTest
+ * Class     LocalizationServiceProviderTest.
  *
- * @package  Arcanedev\Localization\Tests
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LocalizationServiceProviderTest extends TestCase

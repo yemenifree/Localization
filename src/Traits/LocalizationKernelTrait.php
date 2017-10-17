@@ -1,9 +1,10 @@
-<?php namespace Arcanedev\Localization\Traits;
+<?php
+
+namespace Arcanedev\Localization\Traits;
 
 /**
- * Class     LocalizationKernelTrait
+ * Class     LocalizationKernelTrait.
  *
- * @package  Arcanedev\Localization\Traits
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  *
  * @property  \Illuminate\Foundation\Application      app

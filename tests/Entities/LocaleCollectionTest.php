@@ -1,13 +1,14 @@
-<?php namespace Arcanedev\Localization\Tests\Entities;
+<?php
+
+namespace Arcanedev\Localization\Tests\Entities;
 
 use Arcanedev\Localization\Entities\Locale;
 use Arcanedev\Localization\Entities\LocaleCollection;
 use Arcanedev\Localization\Tests\TestCase;
 
 /**
- * Class     LocaleCollectionTest
+ * Class     LocaleCollectionTest.
  *
- * @package  Arcanedev\Localization\Tests\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LocaleCollectionTest extends TestCase
@@ -29,7 +30,7 @@ class LocaleCollectionTest extends TestCase
     {
         parent::setUp();
 
-        $this->locales = new LocaleCollection;
+        $this->locales = new LocaleCollection();
     }
 
     public function tearDown()
@@ -88,13 +89,13 @@ class LocaleCollectionTest extends TestCase
 
         // Assert all locales
         $this->assertFalse($this->locales->isEmpty());
-        $this->assertCount(289,  $this->locales);
+        $this->assertCount(289, $this->locales);
         $this->assertSame(289, $this->locales->count());
 
         // Assert supported locales
         $this->assertFalse($supported->isEmpty());
         $count = count($this->supportedLocales);
-        $this->assertCount($count,  $supported);
+        $this->assertCount($count, $supported);
         $this->assertSame($count, $supported->count());
     }
 

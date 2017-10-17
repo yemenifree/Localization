@@ -1,11 +1,12 @@
-<?php namespace Arcanedev\Localization\Entities;
+<?php
+
+namespace Arcanedev\Localization\Entities;
 
 use Arcanedev\Support\Collection;
 
 /**
- * Class     LocaleCollection
+ * Class     LocaleCollection.
  *
- * @package  Arcanedev\Localization\Entities
  * @author   ARCANEDEV <arcanedev.maroc@gmail.com>
  */
 class LocaleCollection extends Collection
@@ -30,7 +31,7 @@ class LocaleCollection extends Collection
     /**
      * Set supported locales keys.
      *
-     * @param  array  $supported
+     * @param array $supported
      *
      * @return self
      */
@@ -49,8 +50,8 @@ class LocaleCollection extends Collection
     /**
      * Get the first locale from the collection.
      *
-     * @param  callable|null  $callback
-     * @param  mixed          $default
+     * @param callable|null $callback
+     * @param mixed         $default
      *
      * @return \Arcanedev\Localization\Entities\Locale|mixed
      */
@@ -66,7 +67,7 @@ class LocaleCollection extends Collection
      */
     public function getSupported()
     {
-        return $this->filter(function(Locale $locale) {
+        return $this->filter(function (Locale $locale) {
             return in_array($locale->key(), $this->supported);
         });
     }
@@ -91,7 +92,7 @@ class LocaleCollection extends Collection
     /**
      * Load locales from array.
      *
-     * @param  array  $locales
+     * @param array $locales
      *
      * @return self
      */
